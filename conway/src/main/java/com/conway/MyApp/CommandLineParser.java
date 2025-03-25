@@ -49,15 +49,14 @@ public class CommandLineParser {
      * @return a CommandLineOptions object with parsed values
      */
     public CommandLineOptions parseArguments(String[] args) {
-        if (args.length == 0) {
-            System.out.println("\n\n\\n\n\n\\n\n\n\\n\n\n ");
-            System.out.println("No arguments provided.");
-            System.out.println("\n\n\\n\n\n\\n\n\n\\n\n\n ");
-
-        }
+        
         CommandLineOptions options = new CommandLineOptions();
         options.flags = new CommandLineFlags();
-
+        
+        if (args.length == 0) {
+            System.out.println("No arguments provided.");
+            return options;
+        }
 
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];

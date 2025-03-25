@@ -184,10 +184,9 @@ public class GameBoardController {
 
     // Handle cell click event
     public void handleCellClick(int row, int col) {
-        System.out.println("Cell clicked: " + row + ", " + col);
         game.setCell(row, col, !game.getCell(row, col));
         view.drawBoard(game);
-        
+
 
     }
 
