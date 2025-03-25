@@ -1,4 +1,7 @@
 # Conway Java Large 
+
+![Game Board](./gameExample.png)
+
 This application implements the paper written for NU CSC 603
 It include a way to Start, Stop, Reset, set the inital random seed, and point-click to change cells. 
 
