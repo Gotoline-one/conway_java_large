@@ -54,7 +54,7 @@ public class MyAppView {
                 gameController.resetGame();
             });
 
-            TextField seedField = new TextField("Seed");
+            TextField seedField = new TextField("3141592653589793238");
             seedField.setOnAction(e -> {
                 gameController.setSeed(seedField.getText());
             }); 

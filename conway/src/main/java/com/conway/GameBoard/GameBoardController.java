@@ -1,5 +1,5 @@
 package com.conway.GameBoard;
-// import javax.swing.filechooser.;
+
 import com.conway.*;
 
 import java.io.File;
@@ -152,14 +152,21 @@ public class GameBoardController {
     }
 
     public void setSeed(String text) {
-        long seed = Long.parseLong(text);
-        game.setSeed(seed);
-        game.randomizeBoard();
-        view.drawBoard(game);
+        try {
+            long seed = Long.parseLong(text);
+            game.setSeed(seed);
+            game.randomizeBoard();
+            view.drawBoard(game);
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid seed value: " + text);
+            System.out.println("Please enter a valid seed value");
+            System.out.println("Using PI as seed value");
 
-
-
+            game.setSeed(3141592653589793238L);
+            game.randomizeBoard();
+        }
     }
+        
 
     public GameBoardView getView() {
        return view;
