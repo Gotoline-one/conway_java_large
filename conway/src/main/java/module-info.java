@@ -6,6 +6,6 @@ module com.comway {
     exports com.conway.GameBoard;
 
 
-    opens com.conway to javafx.fxml;
+    // opens com.conway to javafx.fxml;
     exports com.conway;
 }
