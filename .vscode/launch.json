@@ -4,7 +4,23 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
+        {
+            "type": "java",
+            "name": "DictClient",
+            "request": "launch",
+            "mainClass": "com.comway/com.conway.GameBoard.NetIO.DictClient",
+            "projectName": "conway",
+            "args": [
+                "Hello"
+            ]
+        },
+        {
+            "type": "java",
+            "name": "NIOTester",
+            "request": "launch",
+            "mainClass": "com.comway/com.conway.GameBoard.NetIO.NIOTester",
+            "projectName": "conway"
+        },
         {
             "type": "java",
             "name": "Current File",
@@ -23,7 +39,7 @@
             "name": "ConwayApp",
             "request": "launch",
             "mainClass": "com.comway/com.conway.ConwayApp",
-            "projectName": "conway",
+            "projectName": "conway"
         },
         {
             "type": "java",
@@ -31,7 +47,9 @@
             "request": "launch",
             "mainClass": "com.comway/com.conway.ConwayApp",
             "projectName": "conway",
-            "args": ["-?"]
+            "args": [
+                "-?"
+            ]
         },
         {
             "type": "java",
@@ -39,7 +57,15 @@
             "request": "launch",
             "mainClass": "com.comway/com.conway.ConwayApp",
             "projectName": "conway",
-            "args": [ "-h",  "10", "-w", "10", "-t", "1"]
+            "args": [
+                "-h",
+                "40",
+                "-w",
+                "40",
+                "-t",
+                "10",
+                "-j"
+            ]
         }
     ]
 }

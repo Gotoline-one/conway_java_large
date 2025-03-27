@@ -80,8 +80,16 @@ public class MyAppController {
             if (options.flags.filename) {
                 fname = options.filename;
             }
+            if(options.jsonOutput) {
+                System.out.println("Saving to JSON file: " + fname + ".json");
+            }
+            if(options.csvOutput) {
+                System.out.println("Saving to CSV file: " + fname + ".csv");
+            }
 
+            System.out.println("Saving to JSON file: " + options.jsonOutput);
             if (options.jsonOutput) {
+                if(options.debug) {System.out.println("Saving to JSON file: " + fname + ".json");}
                 gameController.saveBoardToJSONFile(new File("./" + fname + ".json"));
             }
 

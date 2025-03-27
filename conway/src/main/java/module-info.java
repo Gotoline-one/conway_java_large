@@ -1,5 +1,6 @@
 module com.comway {
     requires javafx.controls;
+    requires java.base;
 
     // requires javafx.fxml;
     exports com.conway.MyApp;

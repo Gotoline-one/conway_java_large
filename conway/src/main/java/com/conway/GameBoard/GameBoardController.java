@@ -122,7 +122,9 @@ public class GameBoardController {
     }
 
     public void saveBoardToJSONFile(File filePointer) {
+        System.out.println("GameBoard CTRL: - Saving to JSON file: " + filePointer);
         FileOutput.outputJson(boardData, filePointer);
+        // FileOutput.outputJson(boardData);
     }
 
     public void startGame() {

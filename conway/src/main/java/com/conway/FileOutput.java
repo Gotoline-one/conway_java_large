@@ -10,6 +10,15 @@ import com.conway.GameBoard.BoardData;
 
 public class FileOutput {
 
+    public static void outputJson(BoardData bd, String filename) {
+        File file = new File(filename);
+        outputJson(bd, file);
+    }
+
+
+    public FileOutput() {
+        System.out.println(" TESTING FILE OUTPUT");
+    }
 
     public static void outputJson( BoardData bd) {
         
@@ -42,6 +51,9 @@ public class FileOutput {
 
     public static void outputJson(BoardData bd, File file) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
+            System.out.println("Writing to file: " + file.getName());
+            
+
             writer.println("{");
             writer.println("  \"tick_rate_ms\": " + bd.TICK_RATE + ",");
             writer.println("  \"start_time_ms\": " + bd.startMili + ",");
