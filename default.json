@@ -1,8 +1,0 @@
-{
-  "tick_rate_ms": 20,
-  "start_time_ms": 1743051389205,
-  "data": [
-    { "index": 0, "frame_count": 24, "nano_time": 90112402271700, "elapsed_ms": 2052.511 },
-    { "index": 1, "frame_count": 32, "nano_time": 90113427039300, "elapsed_ms": 3077.278 }
-  ]
-}
