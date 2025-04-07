@@ -1,0 +1,41 @@
+@startuml
+actor User
+
+User -> ConwayApp : main(args)
+alt User provides command-line arguments
+    User -> ConwayApp : User calls with arguments
+    ConwayApp -> CommandLineParser : parseArguments(args)
+    CommandLineParser --> ConwayApp : CommandLineOptions
+end
+ConwayApp -> GameBoardView : new(height, width)
+ConwayApp -> GameOfLife : new(height, width, seed)
+ConwayApp -> GameBoardController : new(gameLogic, gameView, TIME_LIMIT_SEC)
+ConwayApp -> MyAppView : new(gameController)
+ConwayApp -> MyAppController : new(this)
+ConwayApp -> MyAppController : initialize(primaryStage)
+User -> MyAppView : Interact with UI (e.g., Start, Stop, Reset)
+
+MyAppView -> GameBoardController : startGame()
+GameBoardController -> Timeline : play()
+GameBoardController -> AnimationTimer : start()
+
+MyAppView -> GameBoardController : stopGame()
+GameBoardController -> Timeline : stop()
+GameBoardController -> AnimationTimer : stop()
+
+MyAppView -> GameBoardController : resetGame()
+GameBoardController -> GameOfLife : randomizeBoard()
+GameBoardController -> GameBoardView : drawBoard(game)
+
+MyAppView -> GameBoardController : setSeed(seed)
+GameBoardController -> GameOfLife : setSeed(seed)
+GameBoardController -> GameOfLife : randomizeBoard()
+GameBoardController -> GameBoardView : drawBoard(game)
+
+MyAppView -> GameBoardController : saveBoardToCSVFile(file)
+GameBoardController -> FileOutput : outputCsv(boardData, file)
+
+MyAppView -> GameBoardController : saveBoardToJSONFile(file)
+GameBoardController -> FileOutput : outputJson(boardData, file)
+
+@enduml
