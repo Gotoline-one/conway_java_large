@@ -1,24 +1,3 @@
-// Contents
-# Compiled source #
-###################
-/conway21.jar
-/conway8.jar
-
+*.lst
+*.class 
 csc605/target
-csc605/target/classes/
-csc605/target/test-classes/
-csc605/target/maven-status/
-csc605/target/classes/*
-csc605/target/classes/module-info.class
-csc605/target/classes/com/conway/ConwayApp.class
-csc605/target/classes/com/conway/FileOutput.class
-csc605/target/classes/com/conway/GameOfLife.class
-csc605/target/classes/com/conway/GameBoard/BoardData.class
-csc605/target/classes/com/conway/GameBoard/GameBoardController.class
-csc605/target/classes/com/conway/GameBoard/GameBoardController$1.class
-csc605/target/classes/com/conway/GameBoard/GameBoardView.class
-csc605/target/classes/com/conway/MyApp/CommandLineParser.class
-csc605/target/classes/com/conway/MyApp/CommandLineParser$CommandLineFlags.class
-csc605/target/classes/com/conway/MyApp/CommandLineParser$CommandLineOptions.class
-csc605/target/classes/com/conway/MyApp/ConwayAppView.class
-csc605/target/classes/module-info.class
