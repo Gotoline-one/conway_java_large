@@ -1,6 +1,3 @@
-// Contents
-# Compiled source #
-###################
-/conway21.jar
-/conway8.jar
-/conway/target/ 
+*.lst
+*.class 
+csc605/target

@@ -1,0 +1,182 @@
+@startuml
+
+class ConwayApp #539bb5{
+    - gameView: GameBoardView
+    - gameLogic: GameOfLife
+    - gameController: GameBoardController
+    - view: ConwayAppView
+    - appController: ConwayAppController
+    - options: CommandLineOptions
+    - WIDTH: int
+    - HEIGHT: int
+    - TIME_LIMIT_SEC: double
+    + start(stage: Stage): void
+    + main(args: String[]): void
+}
+
+class GameOfLife #8bcab6{
+    - WIDTH: int
+    - HEIGHT: int
+    - board: boolean[][]
+    - random: Random
+    + GameOfLife(height: int, width: int)
+    + GameOfLife(height: int, width: int, seed: long)
+    + getCell(row: int, col: int): boolean
+    + setCell(row: int, col: int, state: boolean): void
+    + randomizeBoard(): void
+    + updateBoard(): void
+    + printBoard(): void
+    - countNeighbors(row: int, col: int): int
+    + setSeed(seed: long): void
+}
+
+class FileOutput {
+    + outputJson(bd: BoardData): void
+    + outputJson(bd: BoardData, filename: String): void
+    + outputJson(bd: BoardData, file: File): void
+    + outputCsv(bd: BoardData): void
+    + outputCsv(bd: BoardData, file: File): void
+    + summaryToScreen(bd: BoardData): void
+}
+
+class BoardData #8bcab6 {
+    + TICK_RATE: int
+    + frameCountList: ArrayList<Integer>
+    + nanoTimeList: ArrayList<Long>
+    + lastFpsTime: long
+    + frameCount: int
+    + startNano: long
+    + startMili: long
+    + reset(): void
+}
+
+class GameBoardView #8bcab6{
+    - WIDTH: int
+    - HEIGHT: int
+    - CELL_SIZE: int
+    - rectangles: Rectangle[][]
+    - grid: GridPane
+    - controller: GameBoardController
+    + GameBoardView(height: int, width: int)
+    + getView(): GridPane
+    + drawBoard(game: GameOfLife): void
+    + getWidthInPixels(): int
+    + getHeightInPixels(): int
+    + handleCellClick(row: int, col: int): void
+    + setController(controller: GameBoardController): void
+}
+
+class GameBoardController #8bcab6{
+    - view: GameBoardView
+    - game: GameOfLife
+    - boardData: BoardData
+    - timeline: Timeline
+    - fpsCounter: AnimationTimer
+    - stopTimer: PauseTransition
+    - onEnd: GameEvent
+    - onStart: GameEvent
+    - isGameRunning: Boolean
+    + GameBoardController(game: GameOfLife, view: GameBoardView, gameTimeLimit: double)
+    + setOnEndGame(event: GameEvent): void
+    + setOnStartGame(event: GameEvent): void
+    + saveBoardToCSVFile(file: File): void
+    + saveBoardToJSONFile(file: File): void
+    + startGame(): void
+    + resetGame(): void
+    + stopGame(): void
+    + setSeed(seed: String): void
+    + loadSeed(seed: String): void
+    + handleCellClick(row: int, col: int): void
+    + getView(): GameBoardView
+}
+
+class GameEvent {
+    {abstract} execute(): void
+}
+
+class CommandLineParser {
+    + parseArguments(args: String[]): CommandLineOptions
+    + printHelp(): void
+}
+
+class CommandLineOptions {
+    + height: int
+    + width: int
+    + timeInSeconds: int
+    + jsonOutput: boolean
+    + csvOutput: boolean
+    + debug: boolean
+    + showHelp: boolean
+    + filename: String
+    + flags: CommandLineFlags
+    + quitOnEnd: boolean
+    + seed: long
+}
+
+class CommandLineFlags {
+    + height: boolean
+    + width: boolean
+    + timeInSeconds: boolean
+    + filename: boolean
+    + seed: boolean
+}
+
+class ConwayAppView #539bb5{
+    - root: VBox
+    - menuItemQuit: MenuItem
+    - menuItemStart: MenuItem
+    - menuItemReset: MenuItem
+    - menuItemStop: MenuItem
+    - statusLabel: Label
+    - fpsCounterLabel: Label
+    - gameBoard: GridPane
+    - gameController: GameBoardController
+    + ConwayAppView(gbc: GameBoardController)
+    + getRoot(): Parent
+    + setBoard(gp: GridPane): void
+    + getQMenuItem(): MenuItem
+    + getMenuItemStart(): MenuItem
+    + getMenuItemStop(): MenuItem
+    + getMenuItemReset(): MenuItem
+    + setfpsCounterLabel(newLabel: String): void
+}
+
+class ConwayAppController #539bb5{
+    - model: ConwayApp
+    - view: ConwayAppView
+    - options: CommandLineOptions
+    - gameController: GameBoardController
+    - mainNode: VBox
+    - fpsCounterLabel: Label
+    - statusLabel: Label
+    + ConwayAppController(myModel: ConwayApp)
+    + initialize(primaryStage: Stage): void
+    + handleQuit(actionEvent: ActionEvent): void
+    + cleanupBeforeExit(): void
+    + updateFPS(fps: double): void
+    + setStatus(newStatus: String): void
+}
+
+
+ConwayApp --> GameBoardView : uses
+ConwayApp --> GameOfLife : uses
+ConwayApp --> GameBoardController : uses
+ConwayApp --> ConwayAppView : uses
+ConwayApp --> ConwayAppController : uses
+ConwayApp --> CommandLineOptions : uses
+GameBoardController --> GameBoardView : controls
+GameBoardController --> GameOfLife : controls
+GameBoardController --> BoardData : manages
+GameBoardController --> GameEvent : triggers
+GameBoardView --> GameBoardController : uses
+GameBoardView --> GameOfLife : visualizes
+FileOutput --> BoardData : outputs
+CommandLineParser --> CommandLineOptions : creates
+CommandLineOptions --> CommandLineFlags : contains
+ConwayAppView --> GameBoardController : uses
+ConwayAppController --> ConwayApp : controls
+ConwayAppController --> ConwayAppView : controls
+ConwayAppController --> GameBoardController : uses
+ConwayAppController --> CommandLineOptions : uses
+
+@enduml

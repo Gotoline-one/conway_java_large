@@ -1,15 +1,16 @@
 package com.conway.GameBoard;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import com.conway.FileOutput;
 import com.conway.GameOfLife;
+
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
-
-import java.io.File;
-import java.util.ArrayList;
 
 public class GameBoardController {
     private GameBoardView view;
@@ -22,9 +23,6 @@ public class GameBoardController {
 
     private GameEvent onEnd;
     private GameEvent onStart;
-
-    private Boolean isGameRunning = false;
-
 
     public GameBoardController(GameOfLife newGame, GameBoardView newView, double gameTimeLimit) {
         this.view = newView;
@@ -132,7 +130,7 @@ public class GameBoardController {
         System.out.println("Starting Game");
         timeline.play();
         fpsCounter.start();
-        isGameRunning = true;
+        // isGameRunning = true;
 
     }
 
@@ -142,14 +140,14 @@ public class GameBoardController {
         game.randomizeBoard();
         view.drawBoard(game);
         boardData.reset();
-        isGameRunning = false;
+        // isGameRunning = false;
 
     }
 
     public void stopGame() {
         timeline.stop();
         fpsCounter.stop();
-        isGameRunning = false;
+        // isGameRunning = false;
 
     }
 
