@@ -3,10 +3,12 @@ module com.conway {
     requires javafx.graphics;
     requires javafx.base;
 
-
-    // opens com.conway to javafx.fxml;
-    opens com.conway to javafx.controls;
+    
     exports com.conway ;
     exports com.conway.GameBoard ;
     exports com.conway.MyApp ;
+    opens com.conway to javafx.controls;
+    opens com.conway.GameBoard to javafx.graphics;
+    opens com.conway.MyApp to javafx.graphics;
+    
 }

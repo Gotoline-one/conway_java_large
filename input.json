@@ -1,0 +1,18 @@
+{
+  "tick_rate_ms": 20,
+  "start_time_ms": 1744064249624,
+  "data": [
+    { "index": 0, "frame_count": 51, "nano_time": 102947944571882, "elapsed_ms": 2780.186 },
+    { "index": 1, "frame_count": 61, "nano_time": 102948960500973, "elapsed_ms": 3796.115 },
+    { "index": 2, "frame_count": 58, "nano_time": 102949964339646, "elapsed_ms": 4799.954 },
+    { "index": 3, "frame_count": 60, "nano_time": 102950965263797, "elapsed_ms": 5800.878 },
+    { "index": 4, "frame_count": 61, "nano_time": 102951971418997, "elapsed_ms": 6807.033 },
+    { "index": 5, "frame_count": 61, "nano_time": 102952973828105, "elapsed_ms": 7809.442 },
+    { "index": 6, "frame_count": 68, "nano_time": 102953975456246, "elapsed_ms": 8811.070 },
+    { "index": 7, "frame_count": 68, "nano_time": 102954979007907, "elapsed_ms": 9814.622 },
+    { "index": 8, "frame_count": 108, "nano_time": 102955987050351, "elapsed_ms": 10822.664 },
+    { "index": 9, "frame_count": 109, "nano_time": 102957003119938, "elapsed_ms": 11838.734 },
+    { "index": 10, "frame_count": 109, "nano_time": 102958006924205, "elapsed_ms": 12842.538 },
+    { "index": 11, "frame_count": 106, "nano_time": 102959012517278, "elapsed_ms": 13848.131 }
+  ]
+}
