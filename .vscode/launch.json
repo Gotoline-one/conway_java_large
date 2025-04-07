@@ -6,17 +6,10 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
             "name": "ConwayApp",
             "request": "launch",
             "mainClass": "com.conway/com.conway.ConwayApp",
-            "projectName": "csc605",
-            
+            "projectName": "csc605"
         },
         {
             "type": "java",
@@ -25,8 +18,26 @@
             "mainClass": "com.conway/com.conway.ConwayApp",
             "projectName": "csc605",
             "args": [
-                "-h","30","-w","30"
+                "-h","30","-w","30","-t","10", "-q", "-s", "61073643294500", "-j", "-f", "testing"
+            ]
+        },
+        {
+            "type": "java",
+            "name": "ConwayApp with help",
+            "request": "launch",
+            "mainClass": "com.conway/com.conway.ConwayApp",
+            "projectName": "csc605",
+            "args": [
+                "-?"
             ]
         }
+        //,
+        // {
+        //     "type": "java",
+        //     "name": "Current File",
+        //     "request": "launch",
+        //     "mainClass": "${file}"
+        // }
+
     ]
 }
