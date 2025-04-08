@@ -3,8 +3,7 @@ package com.conway.GameBoard;
 import java.io.File;
 import java.util.ArrayList;
 
-import com.conway.FileOutput;
-import com.conway.GameOfLife;
+import com.conway.Utilities.FileOutput;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;

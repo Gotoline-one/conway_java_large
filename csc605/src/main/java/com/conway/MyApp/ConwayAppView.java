@@ -1,5 +1,7 @@
 package com.conway.MyApp;
 
+import com.conway.AppOptions.AppOptionsController;
+import com.conway.AppOptions.AppOptionsView;
 import com.conway.GameBoard.GameBoardController;
 import com.conway.GameBoard.GameBoardView;
 
@@ -64,35 +66,12 @@ public class ConwayAppView {
                 gameController.loadSeed(seedField.getText());
             });
 
-        //    //TODO: Add in the save and load buttons
-        //     Button saveCSVButton = new Button("Save CSV");
-        //     saveCSVButton.setOnAction(e -> {
-        //         // gameController.saveBoardToCSVFile();
-        //     });
 
-        //     Button saveJSONButton = new Button("Save JSON");
-        //     saveJSONButton.setOnAction(e -> {
-        //         // gameController.saveBoardToJSONFile();
-        //     });
-
-        //     Button loadCSVButton = new Button("Load CSV");
-        //     loadCSVButton.setOnAction(e -> {
-        //         // gameController.loadBoardFromCSVFile();
-        //     });
-
-        //     Button loadJSONButton = new Button("Load JSON");
-        //     loadJSONButton.setOnAction(e -> {
-        //         // gameController.loadBoardFromJSONFile();
-        //     });
-
-            // menuToolHBox.getChildren().addAll(startButton, stopButton, resetButton, seedField, saveCSVButton, saveJSONButton, loadCSVButton, loadJSONButton);
            menuToolHBox.getChildren().addAll(startButton, stopButton, resetButton, seedField, loadSeeButton);
-
-         
             
             fpsCounterLabel = new Label();
             menuToolHBox.getChildren().add(fpsCounterLabel);
-        root.getChildren().add(menuToolHBox);
+            root.getChildren().add(menuToolHBox);
 
         if(gameBoard !=null){
             root.getChildren().add(gameBoard);

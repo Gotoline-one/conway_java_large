@@ -3,8 +3,9 @@ package com.conway.MyApp;
 import java.io.File;
 
 import com.conway.ConwayApp;
+import com.conway.AppOptions.AppOptions;
 import com.conway.GameBoard.GameBoardController;
-import com.conway.MyApp.CommandLineParser.CommandLineOptions;
+// import com.conway.Utilities.CommandLineParser.AppOptions;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
@@ -16,7 +17,7 @@ public class ConwayAppController {
     private ConwayApp model;
 
     private final ConwayAppView view;
-    private final CommandLineOptions options;
+    private final AppOptions options;
     private final GameBoardController gameController;
 
     VBox mainNode;

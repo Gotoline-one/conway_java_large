@@ -1,4 +1,4 @@
-package com.conway.MyApp;
+package com.conway.AppOptions;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,8 +17,13 @@ import javafx.stage.Stage;
 
 public class AppOptionsView {
     protected AppOptionsController controller;
-
     protected Stage stage;
+
+
+    protected TextField seedTextField;
+    protected TextField fnameTextField;
+    protected ChoiceBox<String> fileTypeChoiceBox; 
+
 
     public AppOptionsView (){
         this.controller = new AppOptionsController(this);
@@ -57,9 +62,9 @@ public class AppOptionsView {
         // (minWidth and minHeight default to 0)
 
         // Create and position TextField
-        TextField textFieldMain = new TextField();
-        textFieldMain.setLayoutX(179);
-        textFieldMain.setLayoutY(44);
+        seedTextField = new TextField("TEST");
+        seedTextField.setLayoutX(179);
+        seedTextField.setLayoutY(44);
 
         // Create and position Label ("Default Seed")
         Label labelDefaultSeed = new Label("Default Seed");
@@ -69,7 +74,7 @@ public class AppOptionsView {
         labelDefaultSeed.setPrefHeight(19);
 
         // Add controls to the AnchorPane
-        anchorMain.getChildren().addAll(textFieldMain, labelDefaultSeed);
+        anchorMain.getChildren().addAll(seedTextField, labelDefaultSeed);
         // Set the AnchorPane as the content for the tab
         tabMainOptions.setContent(anchorMain);
 
@@ -82,9 +87,9 @@ public class AppOptionsView {
         anchorFile.setPrefHeight(180);
 
         // Create and position TextField
-        TextField textFieldFile = new TextField();
-        textFieldFile.setLayoutX(240);
-        textFieldFile.setLayoutY(86);
+        fnameTextField = new TextField("aaaaaaa");
+        fnameTextField.setLayoutX(240);
+        fnameTextField.setLayoutY(86);
 
         // Create and position Label ("Default Filename")
         Label labelFilename = new Label("Default Filename");
@@ -113,22 +118,24 @@ public class AppOptionsView {
         // choiceBoxFileType.setPrefWidth(150);
         choiceBoxFileType.getItems().addAll(".json", ".csv"); 
         // (You can add items to the ChoiceBox, e.g., choiceBoxFileType.getItems().addAll("Option1", "Option2"); )
-
+        
         // Add controls to the AnchorPane
-        anchorFile.getChildren().addAll(textFieldFile, labelFilename, checkBoxSaveStats, labelFileType, choiceBoxFileType);
+        anchorFile.getChildren().addAll(fnameTextField, labelFilename, checkBoxSaveStats, labelFileType, choiceBoxFileType);
         tabFileSave.setContent(anchorFile);
 
-        // ----- Third Tab: "Network Options" -----
-        Tab tabNetwork = new Tab("Network Options");
+        // TODO: future network options
+        // // ----- Third Tab: "Network Options" -----
+        // Tab tabNetwork = new Tab("Network Options");
 
-        // Create an empty AnchorPane for Network Options
-        AnchorPane anchorNetwork = new AnchorPane();
-        anchorNetwork.setPrefWidth(200);
-        anchorNetwork.setPrefHeight(180);
-        tabNetwork.setContent(anchorNetwork);
+        // // Create an empty AnchorPane for Network Options
+        // AnchorPane anchorNetwork = new AnchorPane();
+        // anchorNetwork.setPrefWidth(200);
+        // anchorNetwork.setPrefHeight(180);
+        // tabNetwork.setContent(anchorNetwork);
 
         // Add all tabs to the TabPane
-        tabPane.getTabs().addAll(tabMainOptions, tabFileSave, tabNetwork);
+        // tabPane.getTabs().addAll(tabMainOptions, tabFileSave, tabNetwork);
+        tabPane.getTabs().addAll(tabMainOptions, tabFileSave);
 
         // === HBox for Buttons at the Bottom ===
         HBox buttonBar = new HBox();
@@ -141,25 +148,23 @@ public class AppOptionsView {
 
         // Create a spacer Pane with prefWidth (and allow it to grow)
         Pane spacer1 = new Pane();
-        spacer1.setPrefWidth(200);
+        // spacer1.setPrefWidth(200);
         HBox.setHgrow(spacer1, Priority.ALWAYS);
 
         // Create "Cancel" button
         Button btnCancel = new Button("Cancel");
         btnCancel.setMnemonicParsing(false);
+        btnCancel.setOnAction(event -> controller.handleCancelBtn(event));
 
         // Create second spacer Pane
         Pane spacer2 = new Pane();
-        spacer2.setPrefWidth(200);
+        // spacer2.setPrefWidth(200);
         HBox.setHgrow(spacer2, Priority.ALWAYS);
 
         // Create "Exit" button
         Button btnExit = new Button("Exit");
         btnExit.setMnemonicParsing(false);
-        btnExit.addEventHandler(javafx.event.ActionEvent.ACTION, 
-                                event -> controller.handleCloseWindow(event)
-        );
-        
+        btnExit.setOnAction( event -> controller.handleCloseWindow(event) );
 
         // Add buttons and spacers to the HBox in order
         buttonBar.getChildren().addAll(btnSave, spacer1, btnCancel, spacer2, btnExit);
@@ -169,8 +174,8 @@ public class AppOptionsView {
         root.getChildren().addAll(tabPane, buttonBar);
 
         // Create the scene using the root container
-        Scene scene = new Scene(root, 600, 400);
-        stage.setTitle("FXML Conversion to Java Code");
+        Scene scene = new Scene(root, 400, 400);
+   
         stage.setScene(scene);
         stage.show();
 

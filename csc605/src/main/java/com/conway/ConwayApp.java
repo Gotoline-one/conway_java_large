@@ -2,12 +2,13 @@ package com.conway;
 
 import java.util.Arrays;
 
+import com.conway.AppOptions.AppOptions;
 import com.conway.GameBoard.GameBoardController;
 import com.conway.GameBoard.GameBoardView;
-import com.conway.MyApp.CommandLineParser;
-import com.conway.MyApp.CommandLineParser.CommandLineOptions;
+import com.conway.GameBoard.GameOfLife;
 import com.conway.MyApp.ConwayAppController;
 import com.conway.MyApp.ConwayAppView;
+import com.conway.Utilities.CommandLineParser;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -19,7 +20,7 @@ public class ConwayApp extends Application {
     public GameBoardController gameController;
     public static int WIDTH = 20, HEIGHT = 20;
     public static double TIME_LIMIT_SEC = 20;
-    public static CommandLineOptions options;
+    public static AppOptions options;
     public ConwayAppView view;
     public ConwayAppController appController;
 

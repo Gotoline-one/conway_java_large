@@ -1,6 +1,5 @@
 package com.conway.GameBoard;
 
-import com.conway.GameOfLife;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
