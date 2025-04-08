@@ -1,16 +1,11 @@
 {
   "tick_rate_ms": 20,
-  "start_time_ms": 1744069694885,
+  "start_time_ms": 1744076274026,
   "data": [
-    { "index": 0, "frame_count": 26, "nano_time": 61288562782900, "elapsed_ms": 1824.212 },
-    { "index": 1, "frame_count": 30, "nano_time": 61289570575600, "elapsed_ms": 2832.005 },
-    { "index": 2, "frame_count": 31, "nano_time": 61290594637400, "elapsed_ms": 3856.067 },
-    { "index": 3, "frame_count": 30, "nano_time": 61291602725400, "elapsed_ms": 4864.155 },
-    { "index": 4, "frame_count": 37, "nano_time": 61292627208800, "elapsed_ms": 5888.638 },
-    { "index": 5, "frame_count": 37, "nano_time": 61293635367500, "elapsed_ms": 6896.797 },
-    { "index": 6, "frame_count": 48, "nano_time": 61294642722100, "elapsed_ms": 7904.152 },
-    { "index": 7, "frame_count": 48, "nano_time": 61295650245800, "elapsed_ms": 8911.675 },
-    { "index": 8, "frame_count": 48, "nano_time": 61296676250900, "elapsed_ms": 9937.680 },
-    { "index": 9, "frame_count": 55, "nano_time": 61297682547400, "elapsed_ms": 10943.977 }
+    { "index": 0, "frame_count": 25, "nano_time": 67867950569099, "elapsed_ms": 2070.394 },
+    { "index": 1, "frame_count": 32, "nano_time": 67868973559200, "elapsed_ms": 3093.384 },
+    { "index": 2, "frame_count": 30, "nano_time": 67869980996000, "elapsed_ms": 4100.821 },
+    { "index": 3, "frame_count": 31, "nano_time": 67871004381199, "elapsed_ms": 5124.206 },
+    { "index": 4, "frame_count": 38, "nano_time": 67872012814100, "elapsed_ms": 6132.639 }
   ]
 }
