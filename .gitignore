@@ -1,3 +1,5 @@
 *.lst
 *.class 
 csc605/target
+/*.json
+/*.csv
