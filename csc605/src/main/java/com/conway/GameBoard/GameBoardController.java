@@ -14,7 +14,7 @@ import javafx.util.Duration;
 public class GameBoardController {
     private GameBoardView view;
     private GameOfLife game;
-    private BoardData boardData;
+    private GameData boardData;
 
     private Timeline timeline;
     private AnimationTimer fpsCounter;
@@ -28,7 +28,7 @@ public class GameBoardController {
         this.game = newGame;
         view.setController( this);
         // Initialize boardData
-        boardData = new BoardData();
+        boardData = new GameData();
         boardData.TICK_RATE = 20;
         boardData.frameCountList = new ArrayList<>();
         boardData.nanoTimeList = new ArrayList<>();

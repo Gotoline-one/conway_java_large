@@ -1,12 +1,10 @@
 package com.conway.MyApp;
 
+import com.conway.*;
+import com.conway.AppOptions.*;
+import com.conway.GameBoard.*;
+
 import java.io.File;
-
-import com.conway.ConwayApp;
-import com.conway.AppOptions.AppOptions;
-import com.conway.GameBoard.GameBoardController;
-// import com.conway.Utilities.CommandLineParser.AppOptions;
-
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -15,7 +13,6 @@ import javafx.stage.Stage;
 
 public class ConwayAppController {
     private ConwayApp model;
-
     private final ConwayAppView view;
     private final AppOptions options;
     private final GameBoardController gameController;
@@ -108,7 +105,9 @@ public class ConwayAppController {
         });
 
         if (options.quitOnEnd) {
-            if(options.debug)   {System.out.println("Setting end of game time "+ options.timeInSeconds); }
+            if(options.debug)   {
+                System.out.println("Setting end of game time "+ options.timeInSeconds); 
+            }
             
             gameController.setOnEndGame(() -> {
                 if (options.debug) System.out.println("Game Ended");
@@ -129,7 +128,6 @@ public class ConwayAppController {
             view.optionsController.handleAppExit();
         }catch(IllegalStateException e){
             e.printStackTrace();
-
         }
     }
 

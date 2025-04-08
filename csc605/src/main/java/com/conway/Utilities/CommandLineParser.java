@@ -4,19 +4,6 @@ import com.conway.AppOptions.AppOptions;
 
 public class CommandLineParser {
 
-
-
-    public class CommandLineFlags {
-            public boolean height        = false;
-            public boolean width         = false;
-            public boolean timeInSeconds = false;
-            public boolean filename      = false;
-            public boolean seed          = false;
-            
-    }
-
-
-
     /**
      * Parses the command line arguments.
      * Recognized options:

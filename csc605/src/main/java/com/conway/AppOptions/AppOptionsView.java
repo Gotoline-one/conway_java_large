@@ -1,28 +1,17 @@
 package com.conway.AppOptions;
 
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 
 public class AppOptionsView {
-    protected AppOptionsController controller;
+    
     protected Stage stage;
-
-
     protected TextField seedTextField;
     protected TextField fnameTextField;
     protected ChoiceBox<String> fileTypeChoiceBox; 
+    protected AppOptionsController controller;
 
 
     public AppOptionsView (){
@@ -38,18 +27,17 @@ public class AppOptionsView {
         this.stage = new Stage();
         stage.setTitle("Settings");
          VBox root = new VBox();
-        // Set preferred size (the FXML specified 600x400)
-        root.setPrefWidth(600);
+
+         root.setPrefWidth(600);
         root.setPrefHeight(400);
-        // (The FXML min/max sizes were set to "-Infinity", which generally means “unspecified” in FXML.)
 
         // === TabPane Setup ===
         TabPane tabPane = new TabPane();
         tabPane.setPrefWidth(600);
         tabPane.setPrefHeight(355);
-        // FXML: tabClosingPolicy="UNAVAILABLE"
+
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        // In FXML, VBox.vgrow="ALWAYS" is used on the TabPane
+
         VBox.setVgrow(tabPane, Priority.ALWAYS);
 
         // ----- First Tab: "Main Options" -----
@@ -59,10 +47,9 @@ public class AppOptionsView {
         AnchorPane anchorMain = new AnchorPane();
         anchorMain.setPrefWidth(200);
         anchorMain.setPrefHeight(180);
-        // (minWidth and minHeight default to 0)
 
         // Create and position TextField
-        seedTextField = new TextField("TEST");
+        seedTextField = new TextField("234234");
         seedTextField.setLayoutX(179);
         seedTextField.setLayoutY(44);
 
@@ -139,7 +126,6 @@ public class AppOptionsView {
 
         // === HBox for Buttons at the Bottom ===
         HBox buttonBar = new HBox();
-        // In FXML: VBox.vgrow="ALWAYS" is used on the HBox as well
         VBox.setVgrow(buttonBar, Priority.ALWAYS);
 
         // Create "Save" button

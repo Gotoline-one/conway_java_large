@@ -1,14 +1,6 @@
 package com.conway.AppOptions;
 
-import com.conway.Utilities.CommandLineParser.CommandLineFlags;
-
-// public class AppOptions {
-//  public 
-//     long seed =314234234l;
-//     public String fname; 
-//     public FileType fileType; 
-
-// }
+import com.conway.Utilities.*;
 
 // Class to hold parsed options
 public  class AppOptions {

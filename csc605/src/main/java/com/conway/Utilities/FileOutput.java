@@ -1,6 +1,6 @@
 package com.conway.Utilities;
 
-import com.conway.GameBoard.BoardData;
+import com.conway.GameBoard.*;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -9,17 +9,16 @@ import java.io.PrintWriter;
 
 public class FileOutput {
 
-    public static void outputJson(BoardData bd, String filename) {
+    public static void outputJson(GameData bd, String filename) {
         File file = new File(filename);
         outputJson(bd, file);
     }
-
 
     public FileOutput() {
         System.out.println(" TESTING FILE OUTPUT");
     }
 
-    public static void outputJson( BoardData bd) {
+    public static void outputJson( GameData bd) {
         
 
         System.out.println("{");
@@ -48,7 +47,7 @@ public class FileOutput {
 
     }
 
-    public static void outputJson(BoardData bd, File file) {
+    public static void outputJson(GameData bd, File file) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
             System.out.println("Writing to file: " + file.getName());
             
@@ -83,7 +82,7 @@ public class FileOutput {
         }
     }
 
-    public static void outputCsv(BoardData bd) {
+    public static void outputCsv(GameData bd) {
         
         System.out.println("index,frame_count,nano_time,elapsed_ms");
     
@@ -101,7 +100,7 @@ public class FileOutput {
     
     }
 
-    public static void summaryToScreen(BoardData bd){
+    public static void summaryToScreen(GameData bd){
         // Optionally, add summary info at end:
         long totalElapsedNano = bd.nanoTimeList.get(bd.nanoTimeList.size() - 1) - bd.startNano;
         double totalElapsedMs = totalElapsedNano / 1_000_000.0;
@@ -112,8 +111,7 @@ public class FileOutput {
         );
     }
 
-
-    public static void outputCsv(BoardData bd, File file) {
+    public static void outputCsv(GameData bd, File file) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
             writer.println("index,frame_count,nano_time,elapsed_ms");
         
@@ -133,6 +131,5 @@ public class FileOutput {
             e.printStackTrace();
         }
     }
-
     
 }

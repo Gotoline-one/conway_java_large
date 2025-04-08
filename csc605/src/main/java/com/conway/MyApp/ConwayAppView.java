@@ -1,9 +1,7 @@
 package com.conway.MyApp;
 
-import com.conway.AppOptions.AppOptionsController;
-import com.conway.AppOptions.AppOptionsView;
-import com.conway.GameBoard.GameBoardController;
-import com.conway.GameBoard.GameBoardView;
+import com.conway.AppOptions.*;
+import com.conway.GameBoard.*;
 
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -98,9 +96,12 @@ public class ConwayAppView {
         menuItemReset = new MenuItem("Reset");
         menu.getItems().add(menuItemReset);     
 
-
+ // TODO: Need to connect terminal options to options menu
         menuItemSettings = new MenuItem("Settings");
-        menuItemSettings.setOnAction(optionsView::openOptionsPane);
+        // menuItemSettings.setOnAction(e -> 
+            // optionsView.openOptionsPane(controller.options);  
+            // optionsView.openOptionsPane(controller.options)
+        // );
         menu.getItems().add(menuItemSettings);
 
         menuItemQuit = new MenuItem("Quit");
