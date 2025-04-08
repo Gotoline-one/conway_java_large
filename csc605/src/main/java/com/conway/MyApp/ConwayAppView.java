@@ -2,6 +2,7 @@ package com.conway.MyApp;
 
 import com.conway.GameBoard.GameBoardController;
 import com.conway.GameBoard.GameBoardView;
+
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -10,13 +11,14 @@ import javafx.scene.layout.VBox;
 
 public class ConwayAppView {
     private VBox root;
-    private MenuItem menuItemQuit, menuItemStart, menuItemReset, menuItemStop;
+    private MenuItem menuItemQuit, menuItemStart, menuItemReset, menuItemStop, menuItemSettings;
     private Label statusLabel;
     private Label fpsCounterLabel;
 
     private GridPane gameBoard;
     private GameBoardController gameController;
-
+    public AppOptionsView optionsView; 
+    public AppOptionsController optionsController; 
     public ConwayAppView(GameBoardController gbc){
 
         this.gameController = gbc;
@@ -25,11 +27,14 @@ public class ConwayAppView {
 
         
         buildUI();
+
+      
     }
     
     private void buildUI(){
         root = new VBox();
-        
+        optionsView = new AppOptionsView();
+        optionsController = optionsView.getController();
         
             Menu menu         = new Menu("Menu"); 
             HBox menuToolHBox = new HBox(buildMenuBar(menu));
@@ -59,26 +64,26 @@ public class ConwayAppView {
                 gameController.loadSeed(seedField.getText());
             });
 
-           //TODO: Add in the save and load buttons
-            // Button saveCSVButton = new Button("Save CSV");
-            // saveCSVButton.setOnAction(e -> {
-            //     gameController.saveBoardToCSVFile();
-            // });
+        //    //TODO: Add in the save and load buttons
+        //     Button saveCSVButton = new Button("Save CSV");
+        //     saveCSVButton.setOnAction(e -> {
+        //         // gameController.saveBoardToCSVFile();
+        //     });
 
-            // Button saveJSONButton = new Button("Save JSON");
-            // saveJSONButton.setOnAction(e -> {
-            //     gameController.saveBoardToJSONFile();
-            // });
+        //     Button saveJSONButton = new Button("Save JSON");
+        //     saveJSONButton.setOnAction(e -> {
+        //         // gameController.saveBoardToJSONFile();
+        //     });
 
-            // Button loadCSVButton = new Button("Load CSV");
-            // loadCSVButton.setOnAction(e -> {
-            //     gameController.loadBoardFromCSVFile();
-            // });
+        //     Button loadCSVButton = new Button("Load CSV");
+        //     loadCSVButton.setOnAction(e -> {
+        //         // gameController.loadBoardFromCSVFile();
+        //     });
 
-            // Button loadJSONButton = new Button("Load JSON");
-            // loadJSONButton.setOnAction(e -> {
-            //     gameController.loadBoardFromJSONFile();
-            // });
+        //     Button loadJSONButton = new Button("Load JSON");
+        //     loadJSONButton.setOnAction(e -> {
+        //         // gameController.loadBoardFromJSONFile();
+        //     });
 
             // menuToolHBox.getChildren().addAll(startButton, stopButton, resetButton, seedField, saveCSVButton, saveJSONButton, loadCSVButton, loadJSONButton);
            menuToolHBox.getChildren().addAll(startButton, stopButton, resetButton, seedField, loadSeeButton);
@@ -114,16 +119,17 @@ public class ConwayAppView {
         menuItemReset = new MenuItem("Reset");
         menu.getItems().add(menuItemReset);     
 
+
+        menuItemSettings = new MenuItem("Settings");
+        menuItemSettings.setOnAction(optionsView::openOptionsPane);
+        menu.getItems().add(menuItemSettings);
+
         menuItemQuit = new MenuItem("Quit");
         menu.getItems().add(menuItemQuit);
-
-        
-        
         
         return new MenuBar(menu); 
         
     }
-
 
     public void setfpsCounterLabel(String newLabel){
         fpsCounterLabel.setText(newLabel);

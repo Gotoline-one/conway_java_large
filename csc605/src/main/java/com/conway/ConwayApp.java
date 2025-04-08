@@ -56,6 +56,9 @@ public class ConwayApp extends Application {
         primaryStage.show();
 
         appController.initialize(primaryStage);
+
+          //TODO: TESTING ONLY 
+          view.optionsView.openOptionsPane(null);
     }
 
 

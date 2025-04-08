@@ -124,7 +124,12 @@ public class ConwayAppController {
     }
 
     public void cleanupBeforeExit() {
-        // Add cleanup logic here
+        try{
+            view.optionsController.handleAppExit();
+        }catch(IllegalStateException e){
+            e.printStackTrace();
+
+        }
     }
 
     public void updateFPS(double fps) {
