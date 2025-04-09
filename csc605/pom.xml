@@ -12,6 +12,18 @@
     <dependencies>
 
         <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>libraries-bom-protobuf3</artifactId>
+            <version>26.59.0</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>4.30.2</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx</artifactId>
             <version>21</version>
@@ -30,7 +42,17 @@
         </dependency>
     </dependencies>
     <build>
+    <!-- Include the os-maven-plugin extension to detect OS classifier -->
+    <extensions>
+      <extension>
+        <groupId>kr.motd.maven</groupId>
+        <artifactId>os-maven-plugin</artifactId>
+        <version>1.7.0</version>
+      </extension>
+    </extensions>
+
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -39,6 +61,27 @@
                     <release>21</release>
                 </configuration>
             </plugin>
+
+        <!-- Protobuf Maven Plugin for compiling .proto files -->
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>0.6.1</version>
+                <configuration>
+                <!-- Configure the protoc compiler artifact -->
+                <protocArtifact>com.google.protobuf:protoc:4.30.2:exe:${os.detected.classifier}</protocArtifact>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+      <!-- JavaFX Maven Plugin configuration -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>

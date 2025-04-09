@@ -3,12 +3,10 @@ package com.conway;
 import java.util.Arrays;
 
 import com.conway.AppOptions.AppOptions;
-import com.conway.GameBoard.GameBoardController;
-import com.conway.GameBoard.GameBoardView;
-import com.conway.GameBoard.GameOfLife;
-import com.conway.MyApp.ConwayAppController;
-import com.conway.MyApp.ConwayAppView;
+import com.conway.GameBoard.*;
+import com.conway.MyApp.*;
 import com.conway.Utilities.CommandLineParser;
+import com.conway.NetC2.*;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -59,7 +57,12 @@ public class ConwayApp extends Application {
         appController.initialize(primaryStage);
 
           //TODO: TESTING ONLY 
-          view.optionsView.openOptionsPane(null);
+        //   view.optionsView.openOptionsPane(null);
+        // AppClient appClient = new AppClient();
+        // appClient.daytimeClient();
+        AppServer appServer = new AppServer();
+        
+        
     }
 
 

@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "AppServer",
+            "request": "launch",
+            "mainClass": "com.conway/com.conway.NetC2.AppServer",
+            "projectName": "csc605"
+        },
+        {
+            "type": "java",
             "name": "ConwayApp",
             "request": "launch",
             "mainClass": "com.conway/com.conway.ConwayApp",
@@ -18,7 +25,18 @@
             "mainClass": "com.conway/com.conway.ConwayApp",
             "projectName": "csc605",
             "args": [
-                "-h","30","-w","30","-t","10", "-q", "-s", "61073643294500", "-j", "-f", "testing"
+                "-h",
+                "30",
+                "-w",
+                "30",
+                "-t",
+                "10",
+                "-q",
+                "-s",
+                "61073643294500",
+                "-j",
+                "-f",
+                "testing"
             ]
         },
         {
@@ -31,13 +49,5 @@
                 "-?"
             ]
         }
-        //,
-        // {
-        //     "type": "java",
-        //     "name": "Current File",
-        //     "request": "launch",
-        //     "mainClass": "${file}"
-        // }
-
     ]
 }

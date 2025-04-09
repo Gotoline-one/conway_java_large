@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package com.conway.NetC2;
+
+// Define command types as an enum.
+enum CommandType {
+  // Even though the default value in proto3 is 0, it's a good idea to make it explicit.
+  UNKNOWN = 0;
+  START   = 1;
+  STOP    = 2;
+  RESET   = 3;
+  PAUSE   = 4;
+  SEED    = 5;
+}
+
+// The main message representing a command.
+message Command {
+  // Specify the type of command.
+  CommandType type = 1;
+
+  // Use 'oneof' to allow for command-specific parameters.
+  oneof parameter {
+    // This field is only used when type is SEED.
+    int64 seed = 2;
+    // You can add other fields for additional commands if needed.
+  }
+}
