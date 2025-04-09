@@ -6,7 +6,7 @@ import com.conway.AppOptions.AppOptions;
 import com.conway.ConwayApp.*;
 import com.conway.GameBoard.*;
 import com.conway.Utilities.CommandLineParser;
-import com.conway.NetC2.*;
+// import com.conway.NetC2.*;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
