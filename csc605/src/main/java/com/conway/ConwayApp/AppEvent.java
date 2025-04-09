@@ -1,4 +1,4 @@
-package    com.conway.MyApp;
+package    com.conway.ConwayApp;
 
 @FunctionalInterface
 public interface AppEvent {

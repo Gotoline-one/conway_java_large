@@ -7,8 +7,8 @@ It include a way to Start, Stop, Reset, set the inital random seed, and point-cl
 
 it takes advantage of the composite or hiarchical MVC design pattern from Conway_002. 
 
-Added onClick event hanlder to the the individual cells, where the MyAppControler Class decides what to do with the events. 
-Added and connected button events added to the MyAppView to GameBoardController so the MyAppController connects and decides how to handle each event
+Added onClick event hanlder to the the individual cells, where the ConwayAppControler Class decides what to do with the events. 
+Added and connected button events added to the ConwayAppView to GameBoardController so the ConwayAppController connects and decides how to handle each event
 
 TODO: add a way to save each board to a file.
 plan is to use CSV and/or JSON to save and load arbitriary sized boards. 

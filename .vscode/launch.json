@@ -13,16 +13,16 @@
         },
         {
             "type": "java",
-            "name": "ConwayApp",
+            "name": "ConwayApplication",
             "request": "launch",
-            "mainClass": "com.conway/com.conway.ConwayApp",
+            "mainClass": "com.conway/com.conway.ConwayApplication",
             "projectName": "csc605"
         },
         {
             "type": "java",
             "name": "ConwayApp with arguments",
             "request": "launch",
-            "mainClass": "com.conway/com.conway.ConwayApp",
+            "mainClass": "com.conway/com.conway.ConwayApplication",
             "projectName": "csc605",
             "args": [
                 "-h",
@@ -43,7 +43,7 @@
             "type": "java",
             "name": "ConwayApp with help",
             "request": "launch",
-            "mainClass": "com.conway/com.conway.ConwayApp",
+            "mainClass": "com.conway/com.conway.ConwayApplication",
             "projectName": "csc605",
             "args": [
                 "-?"

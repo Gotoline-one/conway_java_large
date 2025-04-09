@@ -1,41 +1,41 @@
 @startuml
 actor User
 
-User -> ConwayApp : main(args)
+User -> ConwayApplication : main(args)
 alt User provides command-line arguments
-    User -> ConwayApp : User calls with arguments
-    ConwayApp -> CommandLineParser : parseArguments(args)
-    CommandLineParser --> ConwayApp : CommandLineOptions
+    User -> ConwayApplication : User calls with arguments
+    ConwayApplication -> CommandLineParser : parseArguments(args)
+    CommandLineParser --> ConwayApplication : CommandLineOptions
 end
-ConwayApp -> GameBoardView : new(height, width)
-ConwayApp -> GameOfLife : new(height, width, seed)
-ConwayApp -> GameBoardController : new(gameLogic, gameView, TIME_LIMIT_SEC)
-ConwayApp -> MyAppView : new(gameController)
-ConwayApp -> MyAppController : new(this)
-ConwayApp -> MyAppController : initialize(primaryStage)
-User -> MyAppView : Interact with UI (e.g., Start, Stop, Reset)
+ConwayApplication -> GameBoardView : new(height, width)
+ConwayApplication -> GameOfLife : new(height, width, seed)
+ConwayApplication -> GameBoardController : new(gameLogic, gameView, TIME_LIMIT_SEC)
+ConwayApplication -> ConwayAppView : new(gameController)
+ConwayApplication -> ConwayAppController : new(this)
+ConwayApplication -> ConwayAppController : initialize(primaryStage)
+User -> ConwayAppView : Interact with UI (e.g., Start, Stop, Reset)
 
-MyAppView -> GameBoardController : startGame()
+ConwayAppView -> GameBoardController : startGame()
 GameBoardController -> Timeline : play()
 GameBoardController -> AnimationTimer : start()
 
-MyAppView -> GameBoardController : stopGame()
+ConwayAppView -> GameBoardController : stopGame()
 GameBoardController -> Timeline : stop()
 GameBoardController -> AnimationTimer : stop()
 
-MyAppView -> GameBoardController : resetGame()
+ConwayAppView -> GameBoardController : resetGame()
 GameBoardController -> GameOfLife : randomizeBoard()
 GameBoardController -> GameBoardView : drawBoard(game)
 
-MyAppView -> GameBoardController : setSeed(seed)
+ConwayAppView -> GameBoardController : setSeed(seed)
 GameBoardController -> GameOfLife : setSeed(seed)
 GameBoardController -> GameOfLife : randomizeBoard()
 GameBoardController -> GameBoardView : drawBoard(game)
 
-MyAppView -> GameBoardController : saveBoardToCSVFile(file)
+ConwayAppView -> GameBoardController : saveBoardToCSVFile(file)
 GameBoardController -> FileOutput : outputCsv(boardData, file)
 
-MyAppView -> GameBoardController : saveBoardToJSONFile(file)
+ConwayAppView -> GameBoardController : saveBoardToJSONFile(file)
 GameBoardController -> FileOutput : outputJson(boardData, file)
 
 @enduml

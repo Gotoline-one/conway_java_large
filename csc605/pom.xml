@@ -92,7 +92,7 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.conway.ConwayApp</mainClass>
+                            <mainClass>com.conway.ConwayApplication</mainClass>
                         </configuration>
                     </execution>
                     <execution>
@@ -103,7 +103,7 @@
                             <options>
                                 <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:8000</option>
                             </options>
-                            <mainClass>com.conway.ConwayApp</mainClass>
+                            <mainClass>com.conway.ConwayApplication</mainClass>
                         </configuration>
                     </execution>
                     <execution>
@@ -113,7 +113,7 @@
                             <options>
                                 <option>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</option>
                             </options>
-                            <mainClass>com.conway.ConwayApp</mainClass>
+                            <mainClass>com.conway.ConwayApplication</mainClass>
                         </configuration>
                     </execution>
                 </executions>
