@@ -11,7 +11,7 @@ import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-public class GameBoardController {
+public class GameBoardController implements GameController{
     private GameBoardView view;
     private GameOfLife game;
     private GameData boardData;
@@ -23,7 +23,7 @@ public class GameBoardController {
     private GameEvent onEnd;
     private GameEvent onStart;
 
-    public GameBoardController(GameOfLife newGame, GameBoardView newView, double gameTimeLimit) {
+    public GameBoardController(GameOfLife newGame, GameBoardView newView, double gameTimeLimit)   {
         this.view = newView;
         this.game = newGame;
         view.setController( this);

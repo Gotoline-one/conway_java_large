@@ -4,6 +4,7 @@ import com.conway.Utilities.*;
 
 // Class to hold parsed options
 public  class AppOptions {
+    
     public int height = 0;
     public int width = 0;
     public int timeInSeconds = 0;
@@ -15,9 +16,10 @@ public  class AppOptions {
     public CommandLineFlags flags;
     public boolean quitOnEnd;
     public long seed = (long)314597;
-
-    public AppOptions() {
-    }
+    public boolean client = false;
+    public boolean server = false;
+    
+    
 
  
 }

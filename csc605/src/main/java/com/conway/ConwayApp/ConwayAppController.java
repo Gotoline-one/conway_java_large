@@ -15,7 +15,7 @@ public class ConwayAppController {
     private ConwayApplication model;
     private final ConwayAppView view;
     private final AppOptions options;
-    private final GameBoardController gameController;
+    private final GameController gameController;
 
     VBox mainNode;
     Label fpsCounterLabel;

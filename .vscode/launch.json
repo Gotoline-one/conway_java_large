@@ -8,7 +8,7 @@
             "type": "java",
             "name": "AppServer",
             "request": "launch",
-            "mainClass": "com.conway/com.conway.NetC2.AppServer",
+            "mainClass": "com.conway/com.conway.ConwayApplication",
             "projectName": "csc605"
         },
         {
@@ -37,6 +37,36 @@
                 "-j",
                 "-f",
                 "testing"
+            ]
+        },
+        {
+            "type": "java",
+            "name": "ConwayServer with arguments",
+            "request": "launch",
+            "mainClass": "com.conway/com.conway.ConwayApplication",
+            "projectName": "csc605",
+            "args": [
+                "-h",
+                "10",
+                "-w",
+                "20",
+                "--server"
+
+            ]
+        },
+        {
+            "type": "java",
+            "name": "ConwayClient with arguments",
+            "request": "launch",
+            "mainClass": "com.conway/com.conway.ConwayApplication",
+            "projectName": "csc605",
+            "args": [
+                "-h",
+                "10",
+                "-w",
+                "20",
+                
+                "--client"
             ]
         },
         {

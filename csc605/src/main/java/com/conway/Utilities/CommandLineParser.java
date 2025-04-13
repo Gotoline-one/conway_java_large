@@ -100,6 +100,14 @@ public class CommandLineParser {
                 break;
                 default:  System.err.println("Unknown argument: " + arg);
 		break;
+                case "-S":
+                case "--server":
+                    options.server = true;
+        break;
+                case "-C":
+                case "--client":
+                    options.client = true;
+        break;          
             }
         }
         return options;

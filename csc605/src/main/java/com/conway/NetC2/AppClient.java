@@ -1,56 +1,59 @@
 package com.conway.NetC2;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.Socket;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
+import java.nio.ByteBuffer;
+
+import com.conway.GameBoard.Board;
 
 public class AppClient {
-    public int DEFAULT_PORT = 19;
-    Socket socket; 
-    public AppClient (){
-
-        
-    }
+    public static final int PORT = 9876;
+    // The IP "0.0.0.0" is usually used for binding a server socket;
+    // for a client that listens, you may simply bind to the port.
     
+    private DatagramSocket socket;
+    GameBoardConverter serializer;
+    // You can maintain a persistent buffer, or allocate it per receive call.
+    byte[] buffer;
 
-    public void daytimeClient(){
+    public AppClient() throws SocketException{
+        serializer = new GameBoardConverter();
+        // Bind the socket to a specific port if needed.
+        // If you want the client to listen on PORT, bind it directly:
+        socket = new DatagramSocket(PORT);
+        // buffer = new byte[210];
+        buffer = new byte[65535];
 
-        // String hostname = "time.nist.gov";
-        Socket socket = null;
+    }
 
+    public Board receiveData() {
         try {
-            socket = new Socket("192.168.100.253", 61616);
-            socket.setSoTimeout(150);
+            System.out.println("UDP client listening on port " + PORT);
             
-            // InputStream in   = socket.getInputStream();
-            OutputStream out = socket.getOutputStream();
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+            socket.receive(packet);
             
-            // StringBuilder time = new StringBuilder();
-            // InputStreamReader reader = new InputStreamReader(in, "ASCII");
-            
-            OutputStreamWriter writer = new OutputStreamWriter(out,"ASCII");
-            while(true){
-                writer.write("TEST");
-            }
-            // for (int c = reader.read(); c != -1; c = reader.read()) {
-            //     time.append((char) c);
-            // }
-            
-            // System.out.println(time);
+            // Use only the valid received data
+            ByteBuffer byteBuffer = ByteBuffer.wrap(packet.getData(), 0, packet.getLength());
+            // buffer = packet.getData();
+            // System.out.printf("buffer: \n%b\n",buffer);
 
-        } catch (IOException ex) {
-                System.err.println(ex);
-        } finally {
-            
-            if (socket != null) {
-                try {
-                    socket.close();
-                } catch (IOException ex) {
-                    // ignore
-                }
-            }
+            // Deserialize using ByteBuffer from your converter/adapter class
+            Board board = GameBoardConverter.deserialize(byteBuffer);
+            // Board board = GameBoardConverter.deserialize(buffer);
+
+            return board;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
-
+    
+    // Optionally, add a close method to clean up resources:
+    public void close() {
+        if (socket != null && !socket.isClosed()) {
+            socket.close();
+        }
+    }
 }

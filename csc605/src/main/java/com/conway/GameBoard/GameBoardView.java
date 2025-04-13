@@ -12,7 +12,7 @@ public class GameBoardView {
 
     private Rectangle[][] rectangles;
     private GridPane grid;
-    private GameBoardController controller;
+    private GameController controller;
 
     public GameBoardView(int myHEIGHT, int myWIDTH) {
         WIDTH = myWIDTH;
@@ -70,9 +70,8 @@ public class GameBoardView {
         controller.handleCellClick(finalRow, finalCol);
     }
 
-    public void setController(GameBoardController controller) {
+    public void setController(GameController controller) {
         this.controller = controller;
-
 
 }
     

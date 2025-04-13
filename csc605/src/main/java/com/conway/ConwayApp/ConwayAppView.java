@@ -16,10 +16,10 @@ public class ConwayAppView {
     private Label fpsCounterLabel;
 
     private GridPane gameBoard;
-    private GameBoardController gameController;
+    private GameController gameController;
     public AppOptionsView optionsView; 
     public AppOptionsController optionsController; 
-    public ConwayAppView(GameBoardController gbc){
+    public ConwayAppView(GameController gbc){
 
         this.gameController = gbc;
         GameBoardView gbv = gameController.getView();

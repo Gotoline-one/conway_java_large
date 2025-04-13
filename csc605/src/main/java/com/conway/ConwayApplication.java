@@ -1,12 +1,15 @@
 package com.conway;
 
-import java.util.Arrays;
+// import java.util.Arrays;
 
 import com.conway.AppOptions.AppOptions;
 import com.conway.ConwayApp.*;
 import com.conway.GameBoard.*;
+import com.conway.NetC2.ConwayStream.StreamBoardController;
+import com.conway.NetC2.ConwayStream.StreamRecvr;
+import com.conway.NetC2.ConwayStream.StreamSender;
 import com.conway.Utilities.CommandLineParser;
-// import com.conway.NetC2.*;
+
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -15,15 +18,25 @@ import javafx.stage.Stage;
 public class ConwayApplication extends Application {
     GameBoardView gameView;
     GameOfLife gameLogic;
-    public GameBoardController gameController;
+    public GameController gameController;
     public static int WIDTH = 20, HEIGHT = 20;
     public static double TIME_LIMIT_SEC = 20;
     public static AppOptions options;
     public ConwayAppView view;
     public ConwayAppController appController;
+    private StreamRecvr udpGameClient;
+
+
+    public static void setWidth(int width){ WIDTH = width;}
+    public static void setHeight(int height){ HEIGHT = height;}
 
     @Override
     public void start(Stage primaryStage) {
+
+        // right now this is hard coded, will controlled programically in future
+        // settting up as control client first 
+
+       
 
         if (options.flags.height) {
             HEIGHT = options.height;
@@ -38,14 +51,22 @@ public class ConwayApplication extends Application {
         // Create the board view (which internally creates the model)
         gameView = new GameBoardView(HEIGHT, WIDTH);
         
-    
+        
+
         if(options.flags.seed)
             gameLogic = new GameOfLife(HEIGHT, WIDTH, options.seed);
         else
             gameLogic = new GameOfLife(HEIGHT, WIDTH);
 
-        gameController = new GameBoardController(gameLogic, gameView, TIME_LIMIT_SEC);
+        if (options.client){
 
+            gameController = new StreamBoardController(gameLogic, gameView, udpGameClient);
+            udpGameClient = new StreamRecvr(gameLogic);
+        }else{
+            gameController = new GameBoardController(gameLogic, gameView, TIME_LIMIT_SEC);
+        }
+        
+        
         view = new ConwayAppView(gameController);
         appController = new ConwayAppController(this);
 
@@ -56,11 +77,7 @@ public class ConwayApplication extends Application {
 
         appController.initialize(primaryStage);
 
-          //TODO: TESTING ONLY 
-        //   view.optionsView.openOptionsPane(null);
-        // AppClient appClient = new AppClient();
-        // appClient.daytimeClient();
-        // AppServer appServer = new AppServer();
+
         
         
     }
@@ -84,9 +101,20 @@ public class ConwayApplication extends Application {
 
     }
 
+
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(args));
         dealWithOptions(args);
-        launch(args);
+        
+        if(options.server){ // take in board from client and print to screen
+            StreamSender udpStreamer = new StreamSender(options);
+
+            udpStreamer.start();
+
+        }
+        else{  // Stand alone
+            System.out.print("Stand Alone");
+            launch(args);
+        }
+        
     }
 }

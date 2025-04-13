@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package com.conway.NetC2;
+option java_outer_classname = "UDPGameProto";
+// Represents the overall Game of Life board
+message StreamBoard {
+    int32 height = 1; // Height of the board
+    int32 width = 2;  // Width of the board
+    repeated BoardChunk chunks = 3; // The board divided into chunks
+}
+
+// Represents a chunk of the board (e.g., a row or grid section)
+message BoardChunk {
+    int32 chunk_id = 1; // Unique ID for the chunk
+    repeated Row rows = 2; // Rows within this chunk
+}
+
+// Represents a single row of cells
+message Row {
+    int32 row_index = 1; // Index of the row in the board
+    repeated bool cells = 2; // The cells in this row (true = alive, false = dead)
+}
