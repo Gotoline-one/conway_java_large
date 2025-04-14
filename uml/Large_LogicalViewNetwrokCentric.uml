@@ -1,0 +1,143 @@
+@startuml
+' ===============================
+' Packages and Their Components
+' ===============================
+
+package "com.conway" {
+  class ConwayApplication {
+    +main(String[] args)
+    +start(Stage primaryStage)
+    -dealWithOptions(String[] args)
+  }
+  
+  class ConwayAppView {
+    +ConwayAppView(GameController)
+    +openOptionsPane(ActionEvent)
+    +getRoot(): Parent
+    +getMenuItemStart(): MenuItem
+    +getMenuItemStop(): MenuItem
+    +getMenuItemReset(): MenuItem
+    +getQMenuItem(): MenuItem
+  }
+  interface AppEvent {
+    +execute()
+  }
+}
+
+
+package "com.conway.GameBoard" {
+  class Board {
+    +getHEIGHT(): int
+    +getWIDTH(): int
+    +getBoard(): int[][]
+    +setSquare(int, int, int)
+  }
+  class GameOfLife {
+    +getHEIGHT(): int
+    +getWIDTH(): int
+    +getBoard(): Board
+    +getCell(int, int): int
+    +updateBoard()
+    +printBoard()
+    +randomizeBoard()
+  }
+  class GameBoardView {
+    +getView(): GridPane
+    +setController(GameController)
+  }
+  interface GameController {
+    +startGame()
+    +stopGame()
+    +resetGame()
+    +setSeed(String)
+    +loadSeed(String)
+    +saveBoardToJSONFile(File)
+    +saveBoardToCSVFile(File)
+    +setOnEndGame(GameEvent)
+    +getView(): GameBoardView
+  }
+  class GameEvent {
+    +execute()
+  }
+}
+
+package "com.conway.ConwayNetworked" {
+  class AppClient {
+    +AppClient()
+    +receiveData(): Board
+    +close()
+  }
+  class AppServer {
+    +AppServer()
+    +sendData(Board)
+  }
+  class GameBoardConverter {
+    +serialize(Board): byte[]
+    +serialize(GameOfLife): byte[]
+    +deserialize(ByteBuffer): Board
+  }
+  
+  package "ConwayStream" {
+    class StreamBoardController {
+      +startGame()
+      +stopGame()
+      +resetGame()
+      +setSeed(String)
+      +loadSeed(String)
+      +saveBoardToJSONFile(File)
+      +saveBoardToCSVFile(File)
+      +setOnEndGame(GameEvent)
+      +getView(): GameBoardView
+    }
+    class StreamRecvr {
+      +StreamRecvr(GameOfLife)
+      +start()
+      +stop()
+    }
+    class StreamSender {
+      +StreamSender(AppOptions)
+      +start()
+    }
+  }
+}
+
+package "com.conway.Utilities" {
+  class CommandLineParser {
+    +parseArguments(String[]): AppOptions
+    +printHelp()
+  }
+}
+
+' ===============================
+' Relationships / Associations
+' ===============================
+
+' Core Application and MVC
+ConwayApplication --> ConwayAppView : creates
+ConwayAppView --> GameController : displays
+
+
+
+' Game Logic
+GameOfLife --> Board : manages
+
+' Networked Controllers and Streaming
+StreamBoardController ..|> GameController
+StreamBoardController --> GameOfLife : uses
+StreamBoardController --> GameBoardView : updates view
+StreamBoardController --> StreamRecvr : uses
+
+StreamRecvr --> AppClient : uses
+StreamSender --> AppServer : uses
+StreamSender --> GameOfLife : uses
+
+' Networking Converters
+AppClient --> Board : returns
+AppServer --> Board : sends
+GameBoardConverter ..> Board
+GameBoardConverter ..> GameOfLife
+
+' Utility Usage
+ConwayApplication --> CommandLineParser : "parses args"
+
+@enduml

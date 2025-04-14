@@ -1,0 +1,47 @@
+@startuml
+actor "User" as user
+
+' Use cases representing grid and simulation management
+usecase "Start Simulation" as UC_Start
+usecase "Stop Simulation" as UC_Stop
+usecase "Reset Simulation" as UC_Reset
+usecase "Quit Application" as UC_Quit
+
+' Use cases for grid interaction and visualization
+usecase "Toggle Cell States" as UC_Toggle
+usecase "Load Board Patterns" as UC_LoadPattern
+usecase "View Multi-Grid Simulation" as UC_ViewSim
+
+' Use case for application configuration and persistence
+usecase "Configure Options" as UC_Options
+usecase "Save Simulation State" as UC_SaveState
+
+' Use case for networking (streaming of board data)
+usecase "Connect to Network" as UC_Network
+
+rectangle "Conway Simulation Framework" {
+  usecase "Start" as UC_Start
+  usecase "Stop" as UC_Stop  
+  usecase "Reset" as UC_Reset
+  usecase "Quit" as UC_Quit
+  usecase "Toggle" as UC_Toggle
+  usecase "LoadPattern" as UC_LoadPattern
+  usecase "ViewSim" as UC_ViewSim
+  usecase "Options" as UC_Options
+  usecase "SaveState" as UC_SaveState
+  usecase "Network" as UC_Network
+}
+
+' Associations
+user --> UC_Start
+user --> UC_Stop
+user --> UC_Reset
+user --> UC_Quit
+user --> UC_Toggle
+user --> UC_LoadPattern
+user --> UC_ViewSim
+user --> UC_Options
+user --> UC_SaveState
+user --> UC_Network
+
+@enduml

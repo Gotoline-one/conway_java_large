@@ -1,0 +1,134 @@
+@startuml
+' ===============================
+' Packages and Their Components
+' ===============================
+
+package "com.conway" {
+  class ConwayApplication {
+    +main(String[] args)
+    +start(Stage primaryStage)
+    -dealWithOptions(String[] args)
+  }
+  class ConwayAppController {
+    +ConwayAppController(ConwayApplication)
+    +initialize(Stage)
+    +handleQuit(ActionEvent)
+    +cleanupBeforeExit()
+    +updateFPS(double)
+    +setStatus(String)
+  }
+  class ConwayAppView {
+    +ConwayAppView(GameController)
+    +openOptionsPane(ActionEvent)
+    +getRoot(): Parent
+    +getMenuItemStart(): MenuItem
+    +getMenuItemStop(): MenuItem
+    +getMenuItemReset(): MenuItem
+    +getQMenuItem(): MenuItem
+  }
+  interface AppEvent {
+    +execute()
+  }
+}
+
+package "com.conway.AppOptions" {
+  class AppOptions {
+    +height: int
+    +width: int
+    +timeInSeconds: int
+    +jsonOutput: boolean
+    +csvOutput: boolean
+    +debug: boolean
+    +showHelp: boolean
+    +filename: String
+    +quitOnEnd: boolean
+    +seed: long
+    +client: boolean
+    +server: boolean
+  }
+  class AppOptionsController {
+    +handleCancelBtn(ActionEvent)
+    +handleCloseWindow(ActionEvent)
+    +handleAppExit()
+    +viewToOptions(): AppOptions
+  }
+  class AppOptionsView {
+    +openOptionsPane(ActionEvent)
+    +getController(): AppOptionsController
+  }
+  enum FileType {
+    JSON
+    CSV
+  }
+}
+
+package "com.conway.GameBoard" {
+  class Board {
+    +getHEIGHT(): int
+    +getWIDTH(): int
+    +getBoard(): int[][]
+    +setSquare(int, int, int)
+  }
+  class GameOfLife {
+    +getHEIGHT(): int
+    +getWIDTH(): int
+    +getBoard(): Board
+    +getCell(int, int): int
+    +updateBoard()
+    +printBoard()
+    +randomizeBoard()
+  }
+  class GameBoardView {
+    +getView(): GridPane
+    +setController(GameController)
+  }
+  interface GameController {
+    +startGame()
+    +stopGame()
+    +resetGame()
+    +setSeed(String)
+    +loadSeed(String)
+    +saveBoardToJSONFile(File)
+    +saveBoardToCSVFile(File)
+    +setOnEndGame(GameEvent)
+    +getView(): GameBoardView
+  }
+  class GameEvent {
+    +execute()
+  }
+}
+
+
+package "com.conway.Utilities" {
+  class CommandLineParser {
+    +parseArguments(String[]): AppOptions
+    +printHelp()
+  }
+}
+
+' ===============================
+' Relationships / Associations
+' ===============================
+
+' Core Application and MVC
+ConwayApplication --> ConwayAppView : creates
+ConwayApplication --> ConwayAppController : creates
+ConwayAppController --> ConwayApplication : references
+ConwayAppController --> com.conway.AppOptions.AppOptions : uses
+ConwayAppController --> GameController : controls
+ConwayAppView --> GameController : displays
+
+' Application Options
+AppOptionsView --> AppOptionsController : instantiates
+AppOptionsController --> AppOptionsView : controls
+
+' Game Logic
+GameOfLife --> Board : manages
+
+
+
+
+' Utility Usage
+ConwayApplication --> CommandLineParser : "parses args"
+
+@enduml

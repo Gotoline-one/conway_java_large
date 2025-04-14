@@ -1,0 +1,58 @@
+@startuml
+' High-Level Logical View Diagram for the Upgraded Simulation Framework
+
+package "Simulation Core" {
+  [Game Logic Engine]
+  note right of [Game Logic Engine]
+    Implements Conway's Game of Life rules
+    and handles grid evolution.
+  end note
+}
+
+package "Board Manager" {
+  [Board Lifecycle Manager]
+  note right of [Board Lifecycle Manager]
+    Controls the creation, synchronization,
+    and interaction among multiple grids.
+  end note
+}
+
+package "(Future) AI Integration Module" {
+  [AI Adapter Interface]
+  note right of [AI Adapter Interface]
+    Allows integration of AI models to
+    influence or analyze cell behavior.
+  end note
+}
+
+package "Network Integration Module" {
+  [Networked Adapter Interface]
+  note right of [Networked Adapter Interface]
+    Allows integration of AI models to
+    influence or analyze cell behavior.
+  end note
+}
+package "User Interface Layer" {
+  [JavaFX GUI]
+  note right of [JavaFX GUI]
+    Provides a multi-grid view and control panel
+    for user interaction.
+  end note
+}
+
+package "Persistence Manager" {
+  [Configuration & Session Manager]
+  note right of [Configuration & Session Manager]
+    Handles saving and loading simulation data,
+    patterns, and sessions.
+  end note
+}
+
+' Define interactions
+[Game Logic Engine] --> [Board Lifecycle Manager] : provides board state
+[JavaFX GUI] --> [Board Lifecycle Manager] : displays grid data
+[JavaFX GUI] --> [Configuration & Session Manager] : user commands
+[AI Adapter Interface] --> [Networked Adapter Interface] : modifies rules/inputs
+[Networked Adapter Interface] --> [Board Lifecycle Manager] : controls or streams board
+
+@enduml

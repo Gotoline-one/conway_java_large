@@ -1,0 +1,35 @@
+@startuml
+title Conway Simulation Process View
+
+actor "User" as user
+
+node "Main Simulation Process" {
+  component "ConwayApplication" as CA
+  component "ConwayAppController" as CCC
+  component "ConwayAppView" as CAV
+  component "GameOfLife Engine" as GOF
+  component "Shutdown Hook" as SH
+}
+
+node "Networking Process" {
+  component "StreamSender (Server Mode)" as SS
+  component "AppServer" as APS
+  component "StreamRecvr (Client Mode)" as SR
+  component "AppClient" as AC
+}
+
+' --- User Interaction and Main Simulation Flow ---
+user --> CAV : Interacts via JavaFX GUI
+CAV --> CCC : Propagates user events (start, stop, reset)
+CCC --> GOF : Commands simulation updates
+GOF --> CAV : Feeds board state for real-time visualization
+SH --> GOF : Triggers state saving on exit (JSON/CSV)
+
+' --- Networking Flow (Optional Modes) ---
+note right of SS : In server mode, the simulation \n periodically sends board data.
+SS --> APS : Uses UDP to package & send data
+note right of SR : In client mode, a separate thread \n continuously listens for board data.
+SR --> AC : Receives UDP packets
+AC --> GOF : Updates the simulation board with network data
+
+@enduml

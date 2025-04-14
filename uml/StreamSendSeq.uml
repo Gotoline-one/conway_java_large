@@ -7,8 +7,8 @@
     actor User
 
     box "Network"
-        participant StreamSender #lightblue
-        participant AppServer #lightblue
+        participant StreamSender 
+        participant AppServer 
         control StreamBoardController
     end box
 
@@ -18,18 +18,18 @@
     end box
 
     box "Game Board MVC "
-        control StreamBoardController #lightblue
+        control StreamBoardController 
         participant GameOfLife
 
         
 
     end box 
 
-    note right of User #f0f0ff:  User starts application \nwith option "Server"
+    note right of User :  User starts application \nwith option "Server"
     User -> ConwayApp: Start Server
 
 
-    group#a1a1bb #f0f0ff Startup
+    group#a1a1bb  Startup
         ConwayApp -> AppServer: new AppClient(options)
         AppServer --> ConwayApp: udpGameServer
         
@@ -38,14 +38,14 @@
         StreamBoardController --> ConwayApp: streamBoardController
     end group
 
-    group#8181bb #lightBlue Send Stream(s)
+    group#8181bb  Send Stream(s)
         User -> ConwayAppView: SendStream(...)
         ConwayAppView           ->  StreamBoardController : sendStream(...)
         StreamBoardController   ->  StreamSender: sendStream(serverAddr)
         Client    <--    StreamSender: UDP Board Stream
     end group
 
-    group#a1a1bb  #lightblue Handle Board Stream
+    group#a1a1bb   Handle Board Stream
                             Client    ->>  AppServer: Commands over TCP 
         activate AppServer
         AppServer -> StreamBoardController: Start Game
