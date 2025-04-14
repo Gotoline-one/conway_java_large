@@ -1,8 +1,8 @@
-package com.conway.NetC2.ConwayStream;
+package com.conway.ConwayNetworked.ConwayStream;
 
 import com.conway.AppOptions.AppOptions;
+import com.conway.ConwayNetworked.AppServer;
 import com.conway.GameBoard.GameOfLife;
-import com.conway.NetC2.AppServer;
 
 /**
  * in the future this will start a TCP server that sits and waits, and will:

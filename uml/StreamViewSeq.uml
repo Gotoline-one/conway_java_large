@@ -1,0 +1,54 @@
+@startuml
+!theme plain
+
+    actor User
+
+
+    box "NetC2"
+        participant  StreamRecvr #lightblue
+        participant AppClient #lightblue
+    
+    end box
+
+
+
+    box "Conway Application MVC "
+        participant ConwayApp
+        participant "View" as ConwayAppView
+    end box
+
+    box "Game Board MVC "
+        control StreamBoardController #lightblue
+        participant GameOfLife
+        participant "View" as GameBoardView
+
+    end box 
+
+    note right of User #f0f0ff:  User starts application \nwith option "Client"
+    User -> ConwayApp: Start Application                            
+
+
+    group#a1a1bb #f0f0ff Startup
+        ConwayApp -> AppClient: new AppClient(options)
+        AppClient --> ConwayApp: udpGameClient
+        ConwayApp -> StreamBoardController : new StreamBoardController(...)
+        StreamBoardController -> GameBoardView: new GameBoardView(..)            
+    end group
+
+    group#8181bb #lightBlue Accept Stream
+        User -> ConwayAppView: AcceptStream(...)
+        ConwayAppView           ->  StreamBoardController : acceptStream()
+        StreamBoardController   ->  StreamRecvr: acceptStream(serverAddr)
+    end group
+
+    group#a1a1bb  #lightblue Handle Board Stream
+                                ->>  StreamRecvr: Board Update Stream
+        StreamRecvr             ->  StreamBoardController: updateBoard(board)
+        StreamBoardController   ->  GameBoardView: updateBoard(Board)
+        GameBoardView           -->  User: Updated View
+    end group
+
+
+
+
+@enduml

@@ -1,12 +1,11 @@
-// package com.conway.NetC2.ConwayStream;
-package com.conway.NetC2.ConwayStream;
+package com.conway.ConwayNetworked.ConwayStream;
 
 import java.net.InetAddress;
+
+import com.conway.ConwayNetworked.AppClient;
 import com.conway.GameBoard.Board;
 import com.conway.GameBoard.GameOfLife;
-import com.conway.NetC2.AppClient;
 
-import javafx.application.Platform;
 
 
 public class StreamRecvr {

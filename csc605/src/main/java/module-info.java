@@ -6,7 +6,7 @@ module com.conway {
     exports com.conway.AppOptions ;
     exports com.conway.GameBoard ;
     exports com.conway.ConwayApp ;
-    exports com.conway.NetC2;
+    exports com.conway.ConwayNetworked;
     exports com.conway.Utilities ;
     
     exports com.conway ;

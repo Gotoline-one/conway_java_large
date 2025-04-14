@@ -1,0 +1,18 @@
+@startuml
+
+
+participant User
+participant App
+
+hide  footbox 
+
+User -> App : <<create>> Request
+activate App
+
+App -> User : Response
+deactivate App
+
+destroy User 
+
+App -> App
+@enduml

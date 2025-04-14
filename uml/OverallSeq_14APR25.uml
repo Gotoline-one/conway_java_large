@@ -1,0 +1,116 @@
+@startuml
+
+
+box "NetC2"
+    participant StreamRecvr
+    participant AppClient
+  
+end box
+
+actor User
+
+User -> ConwayApp: startApplication()
+
+alt Stand-alone mode
+    ConwayApp -> ConwayApp: initializeStandalone()
+else Stream view client
+    ConwayApp -> ConwayApp: initializeStreamView()
+else Stream control client
+    ConwayApp -> ConwayApp: initializeStreamControl()
+else Server
+    ConwayApp -> ConwayApp: initializeServer()
+end
+
+
+
+
+
+
+
+
+participant FileSystem
+participant ShellScript
+
+box "Conway Application MVC "
+    participant ConwayApp
+    participant ConwayAppView
+        control ConwayAppController
+    end box
+    box "Utility Classes"
+        participant CommandLineParser
+        participant FileOutput
+    end box
+
+box "Game Board MVC "
+    participant GameOfLife
+    participant GameBoardView
+    control GameBoardController
+end box 
+
+box External Libraries
+    collections Timeline
+    collections AnimationTimer
+end box 
+
+User -> ShellScript : Execute shell script (e.g., run8.sh, run21.sh, runmulti.record.sh)
+alt Shell script provides command-line arguments
+    ShellScript -> ConwayApp : main(args)
+    ConwayApp -> CommandLineParser : parseArguments(args)
+    CommandLineParser --> ConwayApp : CommandLineOptions
+end
+
+ConwayApp -> GameBoardView : new(height, width)
+ConwayApp -> GameOfLife : new(height, width, seed)
+ConwayApp -> GameBoardController : new(gameLogic, gameView, TIME_LIMIT_SEC)
+ConwayApp -> ConwayAppView : new(gameController)
+ConwayApp -> ConwayAppController : new(this)
+ConwayApp -> ConwayAppController : initialize(primaryStage)
+User -> ConwayAppView : Interact with UI (e.g., Start, Stop, Reset)
+
+group "Start" Button
+    ConwayAppView -> GameBoardController : startGame()
+    GameBoardController -> Timeline : play()
+    GameBoardController -> AnimationTimer : start()
+end
+group "Stop" Button
+    ConwayAppView -> GameBoardController : stopGame()
+    GameBoardController -> Timeline : stop()
+    GameBoardController -> AnimationTimer : stop()
+end
+group "Reset" Button
+    ConwayAppView -> GameBoardController : resetGame()
+    GameBoardController -> GameOfLife : randomizeBoard()
+    GameBoardController -> GameBoardView : drawBoard(game)
+end
+
+group "Set Seed" Button
+    ConwayAppView -> GameBoardController : setSeed(seed)
+    GameBoardController -> GameOfLife : setSeed(seed)
+    GameBoardController -> GameOfLife : randomizeBoard()
+    GameBoardController -> GameBoardView : drawBoard(game)
+end 
+
+group "Update Board"
+    GameBoardController -> GameOfLife : updateBoard()
+    GameOfLife -> GameOfLife : countNeighbors(row, col)
+    GameOfLife -> GameBoardView : drawBoard(game)
+end
+
+group Handle End of Game
+    alt save CSV option set
+        ConwayAppView -> GameBoardController : saveBoardToCSVFile(file)
+        GameBoardController -> FileOutput : outputCsv(boardData, file)
+    end
+    alt save JSON option set
+        ConwayAppView -> GameBoardController : saveBoardToJSONFile(file)
+        GameBoardController -> FileOutput : outputJson(boardData, file)
+    end 
+end
+
+alt On command line application exit
+    ConwayApp -> ShellScript
+    ShellScript -> User : Terminal Output
+    ShellScript -> FileSystem : Save files to specified location
+end
+
+@enduml

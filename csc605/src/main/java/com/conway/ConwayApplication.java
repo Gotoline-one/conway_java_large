@@ -4,10 +4,10 @@ package com.conway;
 
 import com.conway.AppOptions.AppOptions;
 import com.conway.ConwayApp.*;
+import com.conway.ConwayNetworked.ConwayStream.StreamBoardController;
+import com.conway.ConwayNetworked.ConwayStream.StreamRecvr;
+import com.conway.ConwayNetworked.ConwayStream.StreamSender;
 import com.conway.GameBoard.*;
-import com.conway.NetC2.ConwayStream.StreamBoardController;
-import com.conway.NetC2.ConwayStream.StreamRecvr;
-import com.conway.NetC2.ConwayStream.StreamSender;
 import com.conway.Utilities.CommandLineParser;
 
 

@@ -1,0 +1,94 @@
+@startuml
+
+    box "Other\nSystem"
+        actor Client
+    end box
+
+    actor User
+
+    box "Network"
+        participant StreamSender #lightblue
+        participant AppServer #lightblue
+        control StreamBoardController
+    end box
+
+    box "Conway Application MVC "
+        participant ConwayApp
+        participant "View" as ConwayAppView
+    end box
+
+    box "Game Board MVC "
+        control StreamBoardController #lightblue
+        participant GameOfLife
+
+        
+
+    end box 
+
+    note right of User #f0f0ff:  User starts application \nwith option "Server"
+    User -> ConwayApp: Start Server
+
+
+    group#a1a1bb #f0f0ff Startup
+        ConwayApp -> AppServer: new AppClient(options)
+        AppServer --> ConwayApp: udpGameServer
+        
+        ConwayApp -> StreamBoardController : new StreamBoardController(...)
+        activate StreamBoardController
+        StreamBoardController --> ConwayApp: streamBoardController
+    end group
+
+    group#8181bb #lightBlue Send Stream(s)
+        User -> ConwayAppView: SendStream(...)
+        ConwayAppView           ->  StreamBoardController : sendStream(...)
+        StreamBoardController   ->  StreamSender: sendStream(serverAddr)
+        Client    <--    StreamSender: UDP Board Stream
+    end group
+
+    group#a1a1bb  #lightblue Handle Board Stream
+                            Client    ->>  AppServer: Commands over TCP 
+        activate AppServer
+        AppServer -> StreamBoardController: Start Game
+        
+        
+        
+        StreamBoardController -> GameOfLife **: create()
+        hnote over GameOfLife: Game\ninitialized
+        Activate GameOfLife
+
+        GameOfLife ---> StreamBoardController: game
+        StreamBoardController ---> AppServer: gameBoard
+        StreamBoardController -> StreamSender: startStream(...)
+            Client  <---- AppServer: Start udp stream
+                      activate AppServer
+            Client  <---- AppServer: reply via tcp
+        
+        Client -> AppServer: Reset Game
+        AppServer -> StreamBoardController: Reset Game
+        StreamBoardController ->GameOfLife: reset()
+        hnote over GameOfLife: restart
+        
+        Client -> AppServer: halt game server
+        AppServer -> StreamBoardController: Shutdown Game
+        StreamBoardController ->GameOfLife: halt()
+                Client  x<-- AppServer : End Stream
+                    deactivate AppServer
+      
+        
+        
+      
+        GameOfLife--->StreamBoardController
+        deactivate GameOfLife
+        hnote over GameOfLife: Game\nHalted
+        StreamBoardController ---> AppServer
+        deactivate StreamBoardController
+        Client <---- AppServer: reply via tcp
+        deactivate AppServer
+
+
+    end group
+
+
+
+
+@enduml

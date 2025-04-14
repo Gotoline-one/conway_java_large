@@ -1,9 +1,10 @@
-package com.conway.NetC2;
+package com.conway.ConwayNetworked;
 
 import java.nio.ByteBuffer;
 
 import com.conway.GameBoard.Board;
 import com.conway.GameBoard.GameOfLife;
+import com.conway.NetC2.UDPGameProto;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 public class GameBoardConverter {

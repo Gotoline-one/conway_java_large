@@ -1,4 +1,4 @@
-package com.conway.NetC2.ConwayStream;
+package com.conway.ConwayNetworked.ConwayStream;
 
 import java.io.File;
 

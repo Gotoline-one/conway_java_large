@@ -1,4 +1,4 @@
-package com.conway.NetC2;
+package com.conway.ConwayNetworked;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
