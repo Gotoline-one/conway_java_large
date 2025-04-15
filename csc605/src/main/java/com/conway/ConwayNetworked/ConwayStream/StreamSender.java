@@ -3,6 +3,10 @@ package com.conway.ConwayNetworked.ConwayStream;
 import com.conway.AppOptions.AppOptions;
 import com.conway.ConwayNetworked.AppServer;
 import com.conway.GameBoard.GameOfLife;
+import javafx.scene.control.Label;
+
+
+// import javafx.scene.control.Label;
 
 /**
  * in the future this will start a TCP server that sits and waits, and will:
@@ -29,7 +33,14 @@ public class StreamSender {
         game.randomizeBoard();
     }
 
+    public void startTest(Label test){
+        UDPReceiverApp udpRcvApp = new UDPReceiverApp();
+        udpRcvApp.setLabel(test);
+        udpRcvApp.startUDPReceiver();
 
+
+
+    }
     public void start(){
         
         try {

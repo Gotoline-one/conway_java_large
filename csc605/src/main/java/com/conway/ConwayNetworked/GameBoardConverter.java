@@ -30,8 +30,6 @@ public class GameBoardConverter {
     }
 
 
-
-
     public static byte[] serialize(GameOfLife game) {
         UDPGameProto.StreamBoard.Builder boardBuilder = UDPGameProto.StreamBoard.newBuilder()
                 .setHeight(game.getHEIGHT())

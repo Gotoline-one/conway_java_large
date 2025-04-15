@@ -7,6 +7,7 @@ import com.conway.ConwayApp.*;
 import com.conway.ConwayNetworked.ConwayStream.StreamBoardController;
 import com.conway.ConwayNetworked.ConwayStream.StreamRecvr;
 import com.conway.ConwayNetworked.ConwayStream.StreamSender;
+import com.conway.ConwayNetworked.ConwayStream.UDPReceiverApp;
 import com.conway.GameBoard.*;
 import com.conway.Utilities.CommandLineParser;
 
@@ -58,16 +59,28 @@ public class ConwayApplication extends Application {
         else
             gameLogic = new GameOfLife(HEIGHT, WIDTH);
 
-        if (options.client){
 
+
+
+        if (options.client){
+           
             gameController = new StreamBoardController(gameLogic, gameView, udpGameClient);
+            view = new ConwayAppView(gameController);
+
             udpGameClient = new StreamRecvr(gameLogic);
+    
+
+            StreamSender udpStreamer = new StreamSender(options);
+            System.out.printf("So Far before udpStreamer.startTest");
+            udpStreamer.startTest(view.statusLabel);
+
         }else{
             gameController = new GameBoardController(gameLogic, gameView, TIME_LIMIT_SEC);
+            view = new ConwayAppView(gameController);
+
         }
         
         
-        view = new ConwayAppView(gameController);
         appController = new ConwayAppController(this);
 
         Scene scene = new Scene(view.getRoot());
@@ -106,9 +119,7 @@ public class ConwayApplication extends Application {
         dealWithOptions(args);
         
         if(options.server){ // take in board from client and print to screen
-            StreamSender udpStreamer = new StreamSender(options);
-
-            udpStreamer.start();
+            
 
         }
         else{  // Stand alone

@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 public class ConwayAppView {
     private VBox root;
     private MenuItem menuItemQuit, menuItemStart, menuItemReset, menuItemStop, menuItemSettings;
-    private Label statusLabel;
+    public Label statusLabel;
     private Label fpsCounterLabel;
 
     private GridPane gameBoard;
@@ -84,6 +84,9 @@ public class ConwayAppView {
 
     }
 
+    public void setStatusLabel(String newLabel){
+        statusLabel.setText(newLabel);
+    }
     private MenuBar buildMenuBar(Menu menu){
        
 

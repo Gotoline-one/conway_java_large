@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "UDPReceiverApp",
+            "request": "launch",
+            "mainClass": "com.conway/com.conway.ConwayNetworked.ConwayStream.UDPReceiverApp",
+            "projectName": "csc605"
+        },
+        {
+            "type": "java",
             "name": "AppServer",
             "request": "launch",
             "mainClass": "com.conway/com.conway.ConwayApplication",
@@ -51,7 +58,6 @@
                 "-w",
                 "20",
                 "--server"
-
             ]
         },
         {
@@ -65,7 +71,6 @@
                 "10",
                 "-w",
                 "20",
-                
                 "--client"
             ]
         },
