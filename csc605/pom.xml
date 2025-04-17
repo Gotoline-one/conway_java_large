@@ -52,8 +52,20 @@
     </extensions>
 
         <plugins>
-
-            <plugin>
+ 
+         <plugin>
+	      <groupId>org.codehaus.mojo</groupId>
+	      <artifactId>exec-maven-plugin</artifactId>
+	      <version>3.2.0</version>
+	      <configuration>
+	        <mainClass>com.conway.ConwayApplication</mainClass>
+	        <arguments>
+	          <argument>-?</argument>
+	          <argument>arg2</argument>
+	        </arguments>
+	      </configuration>
+	  </plugin>
+	  <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>

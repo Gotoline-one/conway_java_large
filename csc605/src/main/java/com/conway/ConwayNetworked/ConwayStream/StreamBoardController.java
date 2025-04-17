@@ -11,7 +11,7 @@ public class StreamBoardController implements GameController{
     GameOfLife gameLogic;
     GameBoardView gameView; 
     StreamRecvr streamRecvr;
-
+    UDPReceiverApp udpReceiverApp;
 
 
     public StreamBoardController(GameOfLife gameLogic, GameBoardView gameView, StreamRecvr udpGameClient) {
@@ -19,6 +19,23 @@ public class StreamBoardController implements GameController{
         this.gameView = gameView;
         this.streamRecvr = udpGameClient;
         gameView.setController( this);
+
+    }
+
+    // use UDPReceverApp class 
+    public StreamBoardController(GameOfLife gameLogic, GameBoardView gameView, UDPReceiverApp udpReceiverApp) {
+        this.gameLogic =   gameLogic;
+        this.gameView = gameView;
+        this.udpReceiverApp = udpReceiverApp;
+        gameView.setController( this);
+
+
+        udpReceiverApp.setOnBoardUpdate(() -> {
+            System.out.println("Recieved new board " + System.currentTimeMillis());
+            gameLogic.getBoard().setBoard(UDPReceiverApp.latestBoard);
+            gameView.drawBoard(gameLogic);
+        });
+        
     }
 
 
@@ -26,7 +43,9 @@ public class StreamBoardController implements GameController{
     public GameBoardView getView() {
         return gameView;
     }
+
     StreamRecvr reciever;
+    private GameOfLife game;
     /**
      *  Control Stream: tell the server(s) to start the game 
      *  View Streams: turn on stream recvr
@@ -114,9 +133,12 @@ public class StreamBoardController implements GameController{
      * View: Nothing
      */
     public void handleCellClick(int row, int col) {
-        // game.setCell(row, col, !game.getCell(row, col));
-        // view.drawBoard(game);
+        game.setCell(row, col, game.getCell(row, col));
+        //  view.drawBoard(game);
 
 
     }
+
+
+
 }

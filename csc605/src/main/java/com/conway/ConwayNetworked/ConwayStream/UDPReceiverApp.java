@@ -9,8 +9,38 @@ import javafx.stage.Stage;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.nio.ByteBuffer;
+
+import com.conway.ConwayNetworked.GameBoardConverter;
+import com.conway.GameBoard.Board;
+import com.conway.GameBoard.GameEvent;
 
 public class UDPReceiverApp extends Application {
+    static Board latestBoard; 
+
+    StreamBoardController streamBoardController;
+
+    StreamEvent onBoardUpdate;
+
+
+
+    public UDPReceiverApp(StreamBoardController streamBoardController){
+        this.streamBoardController = streamBoardController;
+
+    }
+
+
+    public void setBoardUpdate(GameEvent event){
+
+    }
+
+    public UDPReceiverApp(){
+        
+    }
+
+    public void setStreamController(StreamBoardController streamBoardController){
+        this.streamBoardController = streamBoardController;
+    }
 
     // UI element to display latest UDP data.
     public Label dataLabel;
@@ -21,6 +51,7 @@ public class UDPReceiverApp extends Application {
         dataLabel = new Label("Waiting for UDP data...");
         StackPane root = new StackPane(dataLabel);
         Scene scene = new Scene(root, 400, 200);
+        
 
         primaryStage.setTitle("UDP Receiver Demo");
         primaryStage.setScene(scene);
@@ -34,6 +65,7 @@ public class UDPReceiverApp extends Application {
     public void  setLabel(Label dataLabel){
         this.dataLabel = dataLabel;
     }
+
     public void startUDPReceiver() {
         // Create a new thread for the UDP receiver
         Thread udpReceiverThread = new Thread(() -> {
@@ -45,11 +77,13 @@ public class UDPReceiverApp extends Application {
                     socket.receive(packet);  // This will block until data is received
 
                     // Convert received data to a String
-                    String receivedData = new String(packet.getData(), 0, packet.getLength());
+                    // String receivedData = new String(packet.getData(), 0, packet.getLength());
+                    ByteBuffer byteBuffer = ByteBuffer.wrap(packet.getData(), 0, packet.getLength());
 
+                    latestBoard = GameBoardConverter.deserialize(byteBuffer);
                     // Update the UI on the JavaFX Application Thread
                     Platform.runLater(() -> {
-                        dataLabel.setText(receivedData);
+                            boardUpdate();
                     });
                 }
             } catch (Exception e) {
@@ -61,6 +95,18 @@ public class UDPReceiverApp extends Application {
         udpReceiverThread.setDaemon(true);
         udpReceiverThread.start();
     }
+
+    public void setOnBoardUpdate(StreamEvent event){//getBoardUpdate
+    
+        this.onBoardUpdate = event;
+    }
+
+    public void boardUpdate(){
+        if(onBoardUpdate !=null){
+            onBoardUpdate.execute();
+        }
+    }
+
 
     public static void main(String[] args) {
         launch(args);

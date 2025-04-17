@@ -27,7 +27,7 @@ public class ConwayApplication extends Application {
     public ConwayAppController appController;
     private StreamRecvr udpGameClient;
 
-
+    UDPReceiverApp udpReceiverApp;
     public static void setWidth(int width){ WIDTH = width;}
     public static void setHeight(int height){ HEIGHT = height;}
 
@@ -61,25 +61,46 @@ public class ConwayApplication extends Application {
 
 
 
+            /**
+             * Client Starts up and user chooses if controller or viewer
+             *      *  when controller the user's gui interactions transer to server
+             *      * when viewer, client requests board stream , and displays it
+             * 
+             * Server starts up game and waits for clients to controll it
+             *      * when controlled it does what client says
+             *      * when viewed it sends game stream to client
+             **/
 
         if (options.client){
-           
-            gameController = new StreamBoardController(gameLogic, gameView, udpGameClient);
+            //TODO: clean up start logic
+            // for now assuming just viewer
+            // do i need all thess passed in data? 
+            /// is a gameLogic needed for a view only?
+            // gameController = new StreamBoardController(gameLogic, gameView, udpGameClient);
             view = new ConwayAppView(gameController);
 
-            udpGameClient = new StreamRecvr(gameLogic);
-    
+            // udpGameClient = new StreamRecvr(gameLogic);
 
-            StreamSender udpStreamer = new StreamSender(options);
-            System.out.printf("So Far before udpStreamer.startTest");
-            udpStreamer.startTest(view.statusLabel);
+            udpReceiverApp = new UDPReceiverApp((StreamBoardController)gameController);
+            gameController = new StreamBoardController(gameLogic, gameView, udpReceiverApp);
+
+            udpReceiverApp.startUDPReceiver();
+            
 
         }else{
             gameController = new GameBoardController(gameLogic, gameView, TIME_LIMIT_SEC);
             view = new ConwayAppView(gameController);
 
         }
-        
+        if(options.server){ // send board to client, no screen needed
+            gameController = new StreamBoardController(gameLogic, gameView, udpGameClient);
+
+            StreamSender udpStreamer = new StreamSender(options);
+            System.out.printf("So Far before udpStreamer.startTest");
+
+            
+
+        }
         
         appController = new ConwayAppController(this);
 
@@ -119,7 +140,7 @@ public class ConwayApplication extends Application {
         dealWithOptions(args);
         
         if(options.server){ // take in board from client and print to screen
-            
+            System.out.println("Server ");
 
         }
         else{  // Stand alone
