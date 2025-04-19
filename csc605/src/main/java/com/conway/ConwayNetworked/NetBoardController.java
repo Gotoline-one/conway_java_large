@@ -1,30 +1,32 @@
-package com.conway.ConwayNetworked.ConwayStream;
+package com.conway.ConwayNetworked;
 
 import java.io.File;
 
+import com.conway.ConwayNetworked.ConwayStream.StreamRecvr;
+import com.conway.ConwayNetworked.ConwayStream.UDPReceiverApp;
 import com.conway.GameBoard.GameBoardView;
 import com.conway.GameBoard.GameController;
 import com.conway.GameBoard.GameEvent;
 import com.conway.GameBoard.GameOfLife;
 
-public class StreamBoardController implements GameController{
-    GameOfLife gameLogic;
+public class NetBoardController implements GameController{
+    GameOfLife game;
     GameBoardView gameView; 
-    StreamRecvr streamRecvr;
+    StreamRecvr streamReciever;
     UDPReceiverApp udpReceiverApp;
 
 
-    public StreamBoardController(GameOfLife gameLogic, GameBoardView gameView, StreamRecvr udpGameClient) {
-        this.gameLogic =   gameLogic;
+    public NetBoardController(GameOfLife gameLogic, GameBoardView gameView, StreamRecvr udpGameClient) {
+        this.game =   gameLogic;
         this.gameView = gameView;
-        this.streamRecvr = udpGameClient;
+        this.streamReciever = udpGameClient;
         gameView.setController( this);
 
     }
 
     // use UDPReceverApp class 
-    public StreamBoardController(GameOfLife gameLogic, GameBoardView gameView, UDPReceiverApp udpReceiverApp) {
-        this.gameLogic =   gameLogic;
+    public NetBoardController(GameOfLife gameLogic, GameBoardView gameView, UDPReceiverApp udpReceiverApp) {
+        this.game =   gameLogic;
         this.gameView = gameView;
         this.udpReceiverApp = udpReceiverApp;
         gameView.setController( this);
@@ -44,8 +46,6 @@ public class StreamBoardController implements GameController{
         return gameView;
     }
 
-    StreamRecvr reciever;
-    private GameOfLife game;
     /**
      *  Control Stream: tell the server(s) to start the game 
      *  View Streams: turn on stream recvr
@@ -54,8 +54,8 @@ public class StreamBoardController implements GameController{
     @Override
     public void startGame() {
         System.out.println("StreamBoard Controller: start Stream");
-        reciever = new StreamRecvr(gameLogic);
-        reciever.start();
+        streamReciever = new StreamRecvr(game);
+        streamReciever.start();
 
     }
 
@@ -68,7 +68,7 @@ public class StreamBoardController implements GameController{
     @Override
     public void stopGame() {
         System.out.println("STOP Stream");
-        reciever.stop();
+        streamReciever.stop();
 
     }
 
@@ -137,6 +137,10 @@ public class StreamBoardController implements GameController{
         //  view.drawBoard(game);
 
 
+    }
+
+    public void randomizeBoard() {
+    //    this.game.getBoard().
     }
 
 

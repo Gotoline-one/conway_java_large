@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+// package conway;
+package com.conway.NetC2;
+
+
+// Enum for different types of commands
+enum CommandType {
+    START_GAME = 0;
+    STOP_GAME = 1;
+    RESET_GAME = 2;
+    SET_SEED = 3;
+    LOAD_SEED = 4;
+    SAVE_BOARD_JSON = 5;
+    SAVE_BOARD_CSV = 6;
+    HANDLE_CELL_CLICK = 7;
+    END_GAME = 8;
+}
+
+// Message for a command
+message BoardCommand {
+    CommandType type = 1; // The type of command
+    string seed = 2;      // Optional seed for SET_SEED or LOAD_SEED
+    int32 row = 3;        // Optional row for HANDLE_CELL_CLICK
+    int32 col = 4;        // Optional column for HANDLE_CELL_CLICK
+    string filePath = 5;  // Optional file path for SAVE_BOARD_JSON or SAVE_BOARD_CSV
+}
+
+// Message for a response
+message CommandResponse {
+    bool success = 1;     // Whether the command was successful
+    string message = 2;   // Optional message for additional info
+}

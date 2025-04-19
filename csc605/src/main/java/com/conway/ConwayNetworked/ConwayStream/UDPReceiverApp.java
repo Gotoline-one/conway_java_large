@@ -12,19 +12,20 @@ import java.net.DatagramSocket;
 import java.nio.ByteBuffer;
 
 import com.conway.ConwayNetworked.GameBoardConverter;
+import com.conway.ConwayNetworked.NetBoardController;
 import com.conway.GameBoard.Board;
 import com.conway.GameBoard.GameEvent;
+import com.google.protobuf.InvalidProtocolBufferException;
 
 public class UDPReceiverApp extends Application {
-    static Board latestBoard; 
+    public static Board latestBoard; 
 
-    StreamBoardController streamBoardController;
+    NetBoardController streamBoardController;
 
     StreamEvent onBoardUpdate;
 
 
-
-    public UDPReceiverApp(StreamBoardController streamBoardController){
+    public UDPReceiverApp(NetBoardController streamBoardController){
         this.streamBoardController = streamBoardController;
 
     }
@@ -38,7 +39,7 @@ public class UDPReceiverApp extends Application {
         
     }
 
-    public void setStreamController(StreamBoardController streamBoardController){
+    public void setStreamController(NetBoardController streamBoardController){
         this.streamBoardController = streamBoardController;
     }
 
@@ -79,12 +80,16 @@ public class UDPReceiverApp extends Application {
                     // Convert received data to a String
                     // String receivedData = new String(packet.getData(), 0, packet.getLength());
                     ByteBuffer byteBuffer = ByteBuffer.wrap(packet.getData(), 0, packet.getLength());
+                    try{
+                        latestBoard = GameBoardConverter.deserialize(byteBuffer);
+                        // Update the UI on the JavaFX Application Thread
+                        Platform.runLater(() -> {
+                                boardUpdate();
+                        });
+                    }catch (InvalidProtocolBufferException e){
+                        System.out.println("Recieved bad protocol on port. Is someone stepping on us?");
+                    }
 
-                    latestBoard = GameBoardConverter.deserialize(byteBuffer);
-                    // Update the UI on the JavaFX Application Thread
-                    Platform.runLater(() -> {
-                            boardUpdate();
-                    });
                 }
             } catch (Exception e) {
                 e.printStackTrace();

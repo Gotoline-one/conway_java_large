@@ -4,7 +4,7 @@ package com.conway;
 
 import com.conway.AppOptions.AppOptions;
 import com.conway.ConwayApp.*;
-import com.conway.ConwayNetworked.ConwayStream.StreamBoardController;
+import com.conway.ConwayNetworked.NetBoardController;
 import com.conway.ConwayNetworked.ConwayStream.StreamRecvr;
 import com.conway.ConwayNetworked.ConwayStream.StreamSender;
 import com.conway.ConwayNetworked.ConwayStream.UDPReceiverApp;
@@ -76,13 +76,14 @@ public class ConwayApplication extends Application {
             // for now assuming just viewer
             // do i need all thess passed in data? 
             /// is a gameLogic needed for a view only?
-            // gameController = new StreamBoardController(gameLogic, gameView, udpGameClient);
+            
+            // setup TCP client 
+
+            udpReceiverApp = new UDPReceiverApp();
+            gameController = new NetBoardController(gameLogic, gameView, udpReceiverApp);
+            udpReceiverApp.setStreamController((NetBoardController)gameController);
             view = new ConwayAppView(gameController);
 
-            // udpGameClient = new StreamRecvr(gameLogic);
-
-            udpReceiverApp = new UDPReceiverApp((StreamBoardController)gameController);
-            gameController = new StreamBoardController(gameLogic, gameView, udpReceiverApp);
 
             udpReceiverApp.startUDPReceiver();
             
@@ -90,15 +91,14 @@ public class ConwayApplication extends Application {
         }else{
             gameController = new GameBoardController(gameLogic, gameView, TIME_LIMIT_SEC);
             view = new ConwayAppView(gameController);
-
         }
+        
         if(options.server){ // send board to client, no screen needed
-            gameController = new StreamBoardController(gameLogic, gameView, udpGameClient);
+            gameController = new NetBoardController(gameLogic, gameView, udpGameClient);
 
             StreamSender udpStreamer = new StreamSender(options);
             System.out.printf("So Far before udpStreamer.startTest");
-
-            
+            udpStreamer.start();
 
         }
         
@@ -110,10 +110,6 @@ public class ConwayApplication extends Application {
         primaryStage.show();
 
         appController.initialize(primaryStage);
-
-
-        
-        
     }
 
 
@@ -139,14 +135,9 @@ public class ConwayApplication extends Application {
     public static void main(String[] args) {
         dealWithOptions(args);
         
-        if(options.server){ // take in board from client and print to screen
-            System.out.println("Server ");
-
-        }
-        else{  // Stand alone
-            System.out.print("Stand Alone");
-            launch(args);
-        }
+    
+        System.out.print("Stand Alone");
+        launch(args);
         
     }
 }

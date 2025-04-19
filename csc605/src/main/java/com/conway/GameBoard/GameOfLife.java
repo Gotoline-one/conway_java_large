@@ -92,4 +92,8 @@ public class GameOfLife {
             return theBoard;
 	}
 
+    public void resetBoard() {
+       this.theBoard = new Board(this.getHEIGHT(),this.getWIDTH()); 
+    }
+
 }

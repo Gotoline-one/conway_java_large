@@ -42,7 +42,7 @@ public class StreamSender {
 
     }
     public void start(){
-        
+        System.out.println("Starting Stream Sender");
         try {
             AppServer server = new AppServer();
             while(true){

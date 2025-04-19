@@ -27,7 +27,7 @@ public class StreamRecvr {
 
     }
     
-    void start(){
+    public void start(){
      try {
             client = new AppClient();
             while(true){
@@ -42,7 +42,7 @@ public class StreamRecvr {
 
 
     }
-    void stop(){
+    public void stop(){
         client.close();
     }
     
