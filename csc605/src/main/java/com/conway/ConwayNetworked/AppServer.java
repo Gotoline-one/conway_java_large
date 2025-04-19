@@ -61,7 +61,7 @@ public void startTCPCommandListener(NetBoardController gameController) {
                                 out.println("Game stopped (no-op in this implementation).");
                                 break;
                             case "RESET_GAME":
-                                gameController.resetBoard();
+                                // gameController.resetBoard();
                                 out.println("Game reset.");
                                 break;
                             case "SET_SEED":
