@@ -194,13 +194,23 @@ public class GameBoardController implements GameController{
 
     }
 
-    // Handle cell click event
+    /**
+     * handles click for game
+     * 
+     * takes in row, col
+     * 
+     * should add way to read a list of lists for which pattern to load
+     *   could use many different ways, like a 2d vector of ints that could be cycled through 
+     *   could use another class that handles the patterns
+     */ 
     public void handleCellClick(int row, int col) {
         if(this.flyerMode){
             game.setCell(row-1, col-1, true);
             game.setCell(row-1, col, true);
             game.setCell(row-1, col+1, true);
+
             game.setCell(row, col-1, true);
+
             game.setCell(row+1, col, true);
             System.out.printf("make Flyer at (%d,%d)", row,col);
         }
@@ -217,9 +227,7 @@ public class GameBoardController implements GameController{
 
             game.setCell(row+1, col-2, true);
             game.setCell(row+1, col+1, true);
-
-
-
+            System.out.printf("make lwss at (%d,%d)", row,col);
         }
         else{
             game.setCell(row, col, !game.getCell(row, col));
