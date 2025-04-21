@@ -15,21 +15,22 @@ public class ConwayAppController {
     private ConwayApplication model;
     private final ConwayAppView view;
     private final AppOptions options;
-    private final GameController gameController;
+    private final GameBoardController gameController;
 
     VBox mainNode;
     Label fpsCounterLabel;
     Label statusLabel;
+    private boolean flyerMode =false;
 
     public ConwayAppController( ConwayApplication myModel) {
 
-        this.view = myModel.view;
-        this.options = ConwayApplication.options;
-        this.mainNode = (VBox)view.getRoot();
-        this.fpsCounterLabel = (Label) mainNode.lookup("#fpsCounterLabel"); 
-        this.statusLabel = (Label) mainNode.lookup("#statusLabel");
+        this.view               = myModel.view;
+        this.options            = ConwayApplication.options;
+        this.mainNode           = (VBox)view.getRoot();
+        this.fpsCounterLabel    = (Label) mainNode.lookup("#fpsCounterLabel"); 
+        this.statusLabel        = (Label) mainNode.lookup("#statusLabel");
         
-        this.gameController = myModel.gameController;// gameController;
+        this.gameController = (GameBoardController)myModel.gameController;// gameController;
 
         if (model != null && model.appController != null)
             model.appController.fpsCounterLabel.setText("starting");
@@ -64,6 +65,10 @@ public class ConwayAppController {
                 gameController.resetGame();
             });
         }
+
+        // set toolbar events
+        view.flyerButton.setOnAction(this::handleFlyer);
+        view.lwssButton.setOnAction(this::handleLWSSButton);
 
 
         if (options.debug) {
@@ -116,7 +121,22 @@ public class ConwayAppController {
                 System.exit(0);
             });
         }
+
     }
+
+    public void handleFlyer(ActionEvent actionEvent){
+        System.out.println("Flyer");
+        this.gameController.flyerMode = ! this.gameController.flyerMode;
+        this.gameController.lwssMode = false;
+
+    }
+
+    public void handleLWSSButton(ActionEvent actionEvent){
+        System.out.println("Flyer");
+        this.gameController.flyerMode = false;
+        this.gameController.lwssMode = ! this.gameController.lwssMode;
+    }
+
 
     public void handleQuit(ActionEvent actionEvent) {
         this.cleanupBeforeExit();

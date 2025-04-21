@@ -4,6 +4,7 @@ import java.io.File;
 
 public interface GameController {
 
+
     GameBoardView getView();
 
     void startGame();

@@ -39,37 +39,41 @@ public class ConwayAppView {
             Menu menu         = new Menu("Menu"); 
             HBox menuToolHBox = new HBox(buildMenuBar(menu));
 
-            Button startButton = new Button("Start");
-            startButton.setOnAction(e -> {
-                gameController.startGame();
-            });
+                Button startButton = new Button("Start");
+                startButton.setOnAction(e -> {
+                    gameController.startGame();
+                });
 
-            Button stopButton = new Button("Stop");
-            stopButton.setOnAction(e -> {
-                gameController.stopGame();
-            }); 
+                Button stopButton = new Button("Stop");
+                stopButton.setOnAction(e -> {
+                    gameController.stopGame();
+                }); 
 
-            Button resetButton = new Button("Reset");   
-            resetButton.setOnAction(e -> {
-                gameController.resetGame();
-            });
+                Button resetButton = new Button("Reset");   
+                resetButton.setOnAction(e -> {
+                    gameController.resetGame();
+                });
 
-            TextField seedField = new TextField("3141592653589793238");
-            seedField.setOnAction(e -> {
-                gameController.setSeed(seedField.getText());
-            }); 
+                TextField seedField = new TextField("3141592653589793238");
+                seedField.setOnAction(e -> {
+                    gameController.setSeed(seedField.getText());
+                }); 
 
-            Button loadSeeButton = new Button("Load Seed");
-            loadSeeButton.setOnAction(e -> {
-                gameController.loadSeed(seedField.getText());
-            });
+                Button loadSeeButton = new Button("Load Seed");
+                loadSeeButton.setOnAction(e -> {
+                    gameController.loadSeed(seedField.getText());
+                });
 
 
-           menuToolHBox.getChildren().addAll(startButton, stopButton, resetButton, seedField, loadSeeButton);
+            menuToolHBox.getChildren().addAll(startButton, stopButton, resetButton, seedField, loadSeeButton);
             
+            HBox toolbox = buildToolBox();
+            
+
+
             fpsCounterLabel = new Label();
             menuToolHBox.getChildren().add(fpsCounterLabel);
-            root.getChildren().add(menuToolHBox);
+            root.getChildren().addAll(menuToolHBox,toolbox);
 
         if(gameBoard !=null){
             root.getChildren().add(gameBoard);
@@ -82,6 +86,20 @@ public class ConwayAppView {
         root.getChildren().add(statusBox);
 
 
+    }
+    Button flyerButton;
+    Button lwssButton;
+    private HBox buildToolBox() {
+      
+        flyerButton = new Button("flyer");
+        lwssButton = new Button("LWSS");
+
+        HBox toolbox = new HBox();
+        toolbox.getChildren().addAll(flyerButton,lwssButton);
+        toolbox.setMinSize(80,30);
+        
+
+      return toolbox;
     }
 
     public void setStatusLabel(String newLabel){

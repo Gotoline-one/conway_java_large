@@ -6,5 +6,6 @@ public class CommandLineFlags {
     public boolean timeInSeconds = false;
     public boolean filename      = false;
     public boolean seed          = false;
+    public boolean streamPort    = true;
     
 }

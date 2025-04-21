@@ -1,14 +1,21 @@
 package com.conway.ConwayNetworked;
 
-import java.net.DatagramPacket;
+import java.io.IOException;
 import java.net.DatagramSocket;
+import java.net.ServerSocket;
 import java.net.SocketException;
-import java.nio.ByteBuffer;
 
-import com.conway.GameBoard.Board;
+import com.conway.ConwayNetworked.ConwayStream.UDPReceiverApp;
+import com.conway.GameBoard.GameEvent;
 
 public class AppClient {
-    public static final int PORT = 9876;
+    // public String SERVER_IP = "192.168.100.136";
+    public int SERVER_PORT = 8765;
+    NetBoardController netBoardController;
+    // public static final int PORT = 9876;
+    private int clientPort =9876;
+    UDPReceiverApp udpReceiverApp;
+
     // The IP "0.0.0.0" is usually used for binding a server socket;
     // for a client that listens, you may simply bind to the port.
     
@@ -17,38 +24,20 @@ public class AppClient {
     // You can maintain a persistent buffer, or allocate it per receive call.
     byte[] buffer;
 
-    public AppClient() throws SocketException{
-        serializer = new GameBoardConverter();
-        // Bind the socket to a specific port if needed.
-        // If you want the client to listen on PORT, bind it directly:
-        socket = new DatagramSocket(PORT);
-        // buffer = new byte[210];
-        buffer = new byte[65535];
-
+    public AppClient() {
     }
 
-    public Board receiveData() {
-        try {
-            System.out.println("UDP client listening on port " + PORT);
-            
-            DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-            socket.receive(packet);
-            
-            // Use only the valid received data
-            ByteBuffer byteBuffer = ByteBuffer.wrap(packet.getData(), 0, packet.getLength());
-            // buffer = packet.getData();
-            // System.out.printf("buffer: \n%b\n",buffer);
+    public void startStreamCatcher(){
+        System.out.println("\n\npublic void startStreamCatcher()\n\n");
+        udpReceiverApp = new UDPReceiverApp(netBoardController);
+        udpReceiverApp.setOnBoardUpdate(() -> {
+            System.out.println("Recieved new board " + System.currentTimeMillis());
+            netBoardController.updateGameboard();
+        });
 
-            // Deserialize using ByteBuffer from your converter/adapter class
-            Board board = GameBoardConverter.deserialize(byteBuffer);
-            // Board board = GameBoardConverter.deserialize(buffer);
-
-            return board;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        udpReceiverApp.startUDPReceiver(clientPort);
     }
+
     
     // Optionally, add a close method to clean up resources:
     public void close() {
@@ -56,4 +45,23 @@ public class AppClient {
             socket.close();
         }
     }
+
+    public void startTCPControl(NetBoardController gameController) {
+        new Thread(() -> {
+            try (ServerSocket serverSocket = new ServerSocket(SERVER_PORT)) {
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+    }
+
+    public void setOnBoardUpdate(GameEvent event) {
+        
+    }
+    public void setController(NetBoardController netBoardController) {
+        this.netBoardController = netBoardController;
+    }
+
 }

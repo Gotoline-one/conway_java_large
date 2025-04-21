@@ -14,7 +14,25 @@ public class NetBoardController implements GameController{
     GameBoardView gameView; 
     StreamRecvr streamReciever;
     UDPReceiverApp udpReceiverApp;
+    AppClient appClient;
+    AppServer appServer;
 
+    public NetBoardController(GameOfLife gameLogic){
+        this.game =   gameLogic;
+
+        udpReceiverApp.setOnBoardUpdate(() -> {
+            System.out.println("Recieved new board " + System.currentTimeMillis());
+            gameLogic.getBoard().setBoard(UDPReceiverApp.latestBoard);
+            gameView.drawBoard(gameLogic);
+        });
+    }
+
+    public void updateGameboard(){
+        System.out.println("Recieved new board " + System.currentTimeMillis());
+        game.getBoard().setBoard(UDPReceiverApp.latestBoard);
+        gameView.drawBoard(game);
+
+    }
 
     public NetBoardController(GameOfLife gameLogic, GameBoardView gameView, StreamRecvr udpGameClient) {
         this.game =   gameLogic;
@@ -24,22 +42,24 @@ public class NetBoardController implements GameController{
 
     }
 
-    // use UDPReceverApp class 
-    public NetBoardController(GameOfLife gameLogic, GameBoardView gameView, UDPReceiverApp udpReceiverApp) {
+    public NetBoardController(GameOfLife gameLogic, GameBoardView gameView2, AppClient client) {
         this.game =   gameLogic;
-        this.gameView = gameView;
-        this.udpReceiverApp = udpReceiverApp;
-        gameView.setController( this);
-
-
-        udpReceiverApp.setOnBoardUpdate(() -> {
+        this.gameView = gameView2;
+        this.appClient = client;
+        appClient.setController(this);
+        
+        appClient.setOnBoardUpdate(() -> {
             System.out.println("Recieved new board " + System.currentTimeMillis());
             gameLogic.getBoard().setBoard(UDPReceiverApp.latestBoard);
             gameView.drawBoard(gameLogic);
         });
-        
-    }
+	}
 
+	public NetBoardController(GameOfLife gameLogic,  AppServer appServer) {
+        this.game =   gameLogic;
+        this.appServer = appServer;
+        // gameView.setController( this);
+    }
 
     @Override
     public GameBoardView getView() {

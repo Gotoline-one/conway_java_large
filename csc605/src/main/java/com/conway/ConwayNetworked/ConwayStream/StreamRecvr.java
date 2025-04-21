@@ -3,6 +3,7 @@ package com.conway.ConwayNetworked.ConwayStream;
 import java.net.InetAddress;
 
 import com.conway.ConwayNetworked.AppClient;
+import com.conway.ConwayNetworked.NetBoardController;
 import com.conway.GameBoard.Board;
 import com.conway.GameBoard.GameOfLife;
 
@@ -14,6 +15,8 @@ public class StreamRecvr {
     GameOfLife game;
     Board board;
     AppClient client;
+    UDPReceiverApp udpReceiverApp;
+
     /** in the future this will 
      * 1. setup a TCP connection to the server
      * 2. start the stream from the server to here 
@@ -24,22 +27,17 @@ public class StreamRecvr {
         System.out.println("ConwayAppController: starting Client");
         this.game = game;
         board= game.getBoard(); 
-
     }
     
-    public void start(){
-     try {
-            client = new AppClient();
-            while(true){
-                board.setBoard( client.receiveData());
-                game.printBoard();
-                Thread.sleep(800);
-            }
+    public void setController(NetBoardController gameController){
+        udpReceiverApp.setStreamController((NetBoardController)gameController);
+    }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public boolean start(){
+        if (udpReceiverApp == null){ return false;}
+        System.out.println("Started");
+        // udpReceiverApp.startUDPReceiver();
+        return true;
 
     }
     public void stop(){

@@ -11,31 +11,60 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import com.conway.AppOptions.AppOptions;
+import com.conway.ConwayNetworked.ConwayStream.StreamEvent;
+import com.conway.ConwayNetworked.ConwayStream.StreamSender;
+import com.conway.ConwayNetworked.ConwayStream.UDPReceiverApp;
 import com.conway.GameBoard.Board;
 import com.conway.GameBoard.GameOfLife;
 
 public class AppServer {
     // Change these as needed
     public static final int DESTINATION_PORT = 9876;
-    public static final String DESTINATION_IP = "127.0.0.1";
-    public String SERVER_IP = "127.0.0.1";
+    public static final String DESTINATION_IP = "192.168.100.136";
+    public String SERVER_IP = "192.168.100.136";
     public int SERVER_PORT = 8765;
 
     private DatagramSocket socket;
     private InetAddress clientAddress;
     private int clientPort;
     GameBoardConverter serializer;
+    UDPReceiverApp udpReceiver;
+    NetBoardController controller;
+    private StreamEvent onBoardUpdate;
+    StreamSender sender;
+    AppOptions options; 
 
-    public AppServer() throws SocketException, UnknownHostException {
+    public AppServer(AppOptions options) throws SocketException, UnknownHostException {
+        this.options = options;
         serializer = new GameBoardConverter();
         // Create a UDP socket (using any free local port)
         socket = new DatagramSocket();
         // Resolve the destination address and port (where the client is listening)
         clientAddress = InetAddress.getByName(DESTINATION_IP);
         clientPort = DESTINATION_PORT;
+        sender = new StreamSender(options);
 
         System.out.println("UDP stream server started. Will send board to " 
             + clientAddress.getHostAddress() + ":" + clientPort);
+    
+    }
+
+
+    public void startStream(){
+
+        if(this.sender == null) { 
+            System.out.println(" No UDP Sender ");
+            System.exit(-1);
+        }else{
+             try {
+                sender.start();
+
+             } catch (UnknownHostException | SocketException e) {
+                System.out.println("Error Sedning board");
+                e.printStackTrace();
+             }
+        }
     }
 
 public void startTCPCommandListener(NetBoardController gameController) {
@@ -45,8 +74,9 @@ public void startTCPCommandListener(NetBoardController gameController) {
 
                 while (true) {
                     try (Socket clientSocket = serverSocket.accept();
-                         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
+                        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true) ) 
+                    {
 
                         String command = in.readLine();
                         System.out.println("Received command: " + command);
@@ -98,22 +128,24 @@ public void startTCPCommandListener(NetBoardController gameController) {
     }
 
 
-    public static void main(String[] args) {
-        GameOfLife game = new GameOfLife(10, 10);
-        game.randomizeBoard();
+    // public static void main(String[] args) {
         
-        try {
-            AppServer server = new AppServer();
-            while(true){
-                server.sendData(game.getBoard());
-                game.printBoard();
-                System.out.println();
-                Thread.sleep(800);
-                game.updateBoard();
-            }
+    //     GameOfLife game = new GameOfLife(10, 10);
+        
+    //     NetBoardController controller = new NetBoardController(game);
+    //     AppServer server;
+    //     // try {
+    //     //     server = new AppServer();
+    //     //     server.startTCPCommandListener(controller);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
+    //     // } catch (SocketException | UnknownHostException e) {
+    //     //     e.printStackTrace();
+    //     // }
+    // }
+
+    //  public void setOnBoardUpdate(StreamEvent event){//getBoardUpdate
+    //     this.onBoardUpdate = event;
+    // }
 }
+

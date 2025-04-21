@@ -4,40 +4,19 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+            
         {
             "type": "java",
-            "name": "UDPReceiverApp",
-            "request": "launch",
-            "mainClass": "com.conway/com.conway.ConwayNetworked.ConwayStream.UDPReceiverApp",
-            "projectName": "csc605"
-        },
-        {
-            "type": "java",
-            "name": "AppServer",
-            "request": "launch",
-            "mainClass": "com.conway/com.conway.ConwayApplication",
-            "projectName": "csc605"
-        },
-        {
-            "type": "java",
-            "name": "ConwayApplication",
-            "request": "launch",
-            "mainClass": "com.conway/com.conway.ConwayApplication",
-            "projectName": "csc605"
-        },
-        {
-            "type": "java",
-            "name": "ConwayApp with arguments",
+            "name": "ConwayStand Alone with arguments",
             "request": "launch",
             "mainClass": "com.conway/com.conway.ConwayApplication",
             "projectName": "csc605",
             "args": [
+                "-d",
                 "-h",
                 "30",
                 "-w",
                 "30",
-                "-t",
-                "10",
                 "-q",
                 "-s",
                 "61073643294500",
@@ -54,7 +33,7 @@
             "projectName": "csc605",
             "args": [
                 "-h",
-                "10",
+                "20",
                 "-w",
                 "20",
                 "--server"
@@ -68,7 +47,7 @@
             "projectName": "csc605",
             "args": [
                 "-h",
-                "10",
+                "20",
                 "-w",
                 "20",
                 "--client"

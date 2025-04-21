@@ -1,9 +1,14 @@
 package com.conway;
 
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
 // import java.util.Arrays;
 
 import com.conway.AppOptions.AppOptions;
 import com.conway.ConwayApp.*;
+import com.conway.ConwayNetworked.AppClient;
+import com.conway.ConwayNetworked.AppServer;
 import com.conway.ConwayNetworked.NetBoardController;
 import com.conway.ConwayNetworked.ConwayStream.StreamRecvr;
 import com.conway.ConwayNetworked.ConwayStream.StreamSender;
@@ -21,23 +26,21 @@ public class ConwayApplication extends Application {
     GameOfLife gameLogic;
     public GameController gameController;
     public static int WIDTH = 20, HEIGHT = 20;
-    public static double TIME_LIMIT_SEC = 20;
+    public static double TIME_LIMIT_SEC = -1;
     public static AppOptions options;
     public ConwayAppView view;
     public ConwayAppController appController;
-    private StreamRecvr udpGameClient;
 
-    UDPReceiverApp udpReceiverApp;
+    AppClient appClient;
+    AppServer appServer;
     public static void setWidth(int width){ WIDTH = width;}
     public static void setHeight(int height){ HEIGHT = height;}
-
+    
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws SocketException {
 
         // right now this is hard coded, will controlled programically in future
         // settting up as control client first 
-
-       
 
         if (options.flags.height) {
             HEIGHT = options.height;
@@ -59,8 +62,6 @@ public class ConwayApplication extends Application {
         else
             gameLogic = new GameOfLife(HEIGHT, WIDTH);
 
-
-
             /**
              * Client Starts up and user chooses if controller or viewer
              *      *  when controller the user's gui interactions transer to server
@@ -69,47 +70,60 @@ public class ConwayApplication extends Application {
              * Server starts up game and waits for clients to controll it
              *      * when controlled it does what client says
              *      * when viewed it sends game stream to client
-             **/
-
-        if (options.client){
             //TODO: clean up start logic
             // for now assuming just viewer
             // do i need all thess passed in data? 
             /// is a gameLogic needed for a view only?
+            **/
+        if (options.client){
             
-            // setup TCP client 
-
-            udpReceiverApp = new UDPReceiverApp();
-            gameController = new NetBoardController(gameLogic, gameView, udpReceiverApp);
-            udpReceiverApp.setStreamController((NetBoardController)gameController);
+            appClient = new AppClient();
+            gameController = new NetBoardController(gameLogic, gameView, appClient);
+            System.out.println("So Far options.client");
             view = new ConwayAppView(gameController);
+            appClient.startTCPControl((NetBoardController)gameController);
 
+            appController = new ConwayAppController(this);
 
-            udpReceiverApp.startUDPReceiver();
+            Scene scene = new Scene(view.getRoot());
+            primaryStage.setTitle("Conway's Game of Life");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+            appClient.startStreamCatcher();
+             
+            appController.initialize(primaryStage);
+
+           
             
+        } else if(options.server){ // send board to client, no screen needed
+
+            try {
+
+                gameController = new NetBoardController(gameLogic, appServer);
+                // view = new ConwayAppView(gameController);
+                System.out.printf("So Far before udpStreamer.startTest");
+                appServer = new AppServer(options);
+                // appServer.setupStream(options);
+                appServer.startStream();
+
+            } catch (SocketException | UnknownHostException e) {
+                e.printStackTrace();
+            }
 
         }else{
             gameController = new GameBoardController(gameLogic, gameView, TIME_LIMIT_SEC);
             view = new ConwayAppView(gameController);
+            appController = new ConwayAppController(this);
+
+            Scene scene = new Scene(view.getRoot());
+            primaryStage.setTitle("Conway's Game of Life");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+    
+            appController.initialize(primaryStage);
+
         }
-        
-        if(options.server){ // send board to client, no screen needed
-            gameController = new NetBoardController(gameLogic, gameView, udpGameClient);
-
-            StreamSender udpStreamer = new StreamSender(options);
-            System.out.printf("So Far before udpStreamer.startTest");
-            udpStreamer.start();
-
-        }
-        
-        appController = new ConwayAppController(this);
-
-        Scene scene = new Scene(view.getRoot());
-        primaryStage.setTitle("Conway's Game of Life");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-        appController.initialize(primaryStage);
+       
     }
 
 

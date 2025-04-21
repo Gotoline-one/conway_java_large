@@ -22,6 +22,8 @@ public class GameBoardController implements GameController{
 
     private GameEvent onEnd;
     private GameEvent onStart;
+    public Boolean flyerMode = false;
+    public boolean lwssMode = false;
 
     public GameBoardController(GameOfLife newGame, GameBoardView newView, double gameTimeLimit)   {
         this.view = newView;
@@ -47,6 +49,8 @@ public class GameBoardController implements GameController{
                 }
             )
         );
+
+
         timeline.setCycleCount(Timeline.INDEFINITE);
 
         // Set up an AnimationTimer to count frames (FPS counter)
@@ -65,7 +69,8 @@ public class GameBoardController implements GameController{
             }
         };
 
-        if(gameTimeLimit >0){
+        if(gameTimeLimit > 0){
+            System.out.printf(" limit set to %f \n", gameTimeLimit);
             // Set up a timer based on input gameTimeLimit (in seconds) to stop the game after a certain time
             // This timer will stop the game and call the gameEnd method
             // when the time limit is reached
@@ -80,6 +85,7 @@ public class GameBoardController implements GameController{
             });
             stopTimer.play();
         }
+        else{ System.out.println("no limit");}
         
         // Set up the grid event handler
         // view.setOnCellClick(this::handleCellClick);
@@ -136,7 +142,7 @@ public class GameBoardController implements GameController{
     public void resetGame() {
         timeline.stop();
         fpsCounter.stop();
-        game.randomizeBoard();
+        game.resetBoard();
         view.drawBoard(game);
         boardData.reset();
         // isGameRunning = false;
@@ -190,9 +196,36 @@ public class GameBoardController implements GameController{
 
     // Handle cell click event
     public void handleCellClick(int row, int col) {
-        game.setCell(row, col, !game.getCell(row, col));
-        view.drawBoard(game);
+        if(this.flyerMode){
+            game.setCell(row-1, col-1, true);
+            game.setCell(row-1, col, true);
+            game.setCell(row-1, col+1, true);
+            game.setCell(row, col-1, true);
+            game.setCell(row+1, col, true);
+            System.out.printf("make Flyer at (%d,%d)", row,col);
+        }
+        else if(this.lwssMode){
+            game.setCell(row-2, col-1, true);
+            game.setCell(row-2, col, true);
+            game.setCell(row-2, col+1, true);
+            game.setCell(row-2, col+2, true);
+            
+            game.setCell(row-1, col-2, true);
+            game.setCell(row-1, col+2, true);
 
+            game.setCell(row, col+2, true);
+
+            game.setCell(row+1, col-2, true);
+            game.setCell(row+1, col+1, true);
+
+
+
+        }
+        else{
+            game.setCell(row, col, !game.getCell(row, col));
+        }
+
+        view.drawBoard(game);
 
     }
 
